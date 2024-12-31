@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.recomedi.myapp.persistance.MedicineMapper">
+	
+	<sql id="search">
+		<if test="searchType != null and SearchType.equals('effect')">
+			and effect like concat('%',#{keyword},'%')
+		</if>
+		<if test="searchType != null and SearchType.equals('medicineName')">
+			and medicineName like concat('%',#{keyword},'%')
+		</if>
+	</sql>
+	
+	<select id="medicineSelectAll" parameterType="HashMap" resultType="mdv">
+		select * from MEDICINE where delyn='N'
+		<include refid="search" />
+		order by medidx desc limeit #{startPageNum}, #{perPageNum}
+	</select>
+	
+	<select id="medicineListTotalCount" parameterType="scri" resultType="int">
+		select count(*) as cnt from MEDICINE where delyn='N'
+		<include refid="search" />
+	</select>
+	
+	<select id="medicineSelectOne" parameterType="int" resultType="mdv">
+		select * from where delyn='N' and medidx=#{medidx} 
+	</select>
+	
+</mapper>
