@@ -39,7 +39,7 @@
     <description></description>
     <display-name>HomeController</display-name>
     <servlet-name>HomeController</servlet-name>
-    <servlet-class>com.myprj.myapp.controller.HomeController</servlet-class>
+    <servlet-class>com.recomedi.myapp.controller.HomeController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>HomeController</servlet-name>
@@ -49,7 +49,7 @@
     <description></description>
     <display-name>MainServiceImpl</display-name>
     <servlet-name>MainServiceImpl</servlet-name>
-    <servlet-class>com.myprj.myapp.service.MainServiceImpl</servlet-class>
+    <servlet-class>com.recomedi.myapp.service.MainServiceImpl</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>MainServiceImpl</servlet-name>

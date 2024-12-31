@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.myprj.myapp">
+	<logger name="com.recomedi.myapp">
 		<level value="info" />
 	</logger>
 	
