@@ -25,5 +25,5 @@ public class BoardController {
 //	@Autowired(required=false)
 //	private UserIp userip;
 	
-	
+	// aaaaaa
 }
