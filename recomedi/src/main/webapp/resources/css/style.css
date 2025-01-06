@@ -6,8 +6,6 @@
 body { line-height: 1.5; width: 1100px; margin: 0 auto; font-family: "NotoSanseKR", "맑은 고딕"; background: #EBEBEB; 
 	font-size: 14px; padding: 20px 0; min-height: 100vh; flex-direction: column; justify-content: space-between; }
 a { text-decoration: none; color: inherit; }
-/* select { cursor: pointer; border-color: lightgray; height: 20px; width: 70px; }
-textarea { border-color: lightgray; padding: 0 5px; } */
 ul { list-style: none; }
 img { vertical-align: middle; }
 section, .section { padding: 30px; border-radius: 20px; }
