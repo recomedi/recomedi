@@ -6,12 +6,16 @@
 body { line-height: 1.5; width: 1100px; margin: 0 auto; font-family: "NotoSanseKR", "맑은 고딕"; background: #EBEBEB; 
 	font-size: 14px; padding: 20px 0; min-height: 100vh; flex-direction: column; justify-content: space-between; }
 a { text-decoration: none; color: inherit; }
+/* select { cursor: pointer; border-color: lightgray; height: 20px; width: 70px; }
+textarea { border-color: lightgray; padding: 0 5px; } */
 ul { list-style: none; }
 img { vertical-align: middle; }
-section { padding: 30px; border-radius: 20px; }
+section, .section { padding: 30px; border-radius: 20px; }
 button { border: none; cursor: pointer; background: transparent; }
 button:focus-visible { outline: none; }
-input { border: 1px solid #D9D9D9; padding: 6px 10px; font-family: "NotoSanseKR", "맑은 고딕"; }
+textarea { width: 100%; resize: none; display: block; }
+textarea:focus-visible { outline: none; }
+input, textarea { border: 1px solid #D9D9D9; border-radius: 10px; padding: 6px 10px; font-family: "NotoSanseKR", "맑은 고딕"; }
 input:focus-visible { outline: none; }
 .main { background: #003366; min-height: 780px; }
 .wrapper { flex: 1 1 auto; }
@@ -104,6 +108,16 @@ input:focus-visible { outline: none; }
 .search { justify-content: flex-end;  margin-bottom: 20px; gap: 10px; }
 .search input { border-radius: 10px; box-shadow: 0 0 5px rgba(0, 0, 0, .25); background: #fff; }
 
+.board~.select2-container .select2-results__option { padding: 6px; font-size: 12px; }
+.board .select2-container--default .select2-selection--single,
+.board .select2-container--default.select2-container--open.select2-container--below .select2-selection--single {
+	font-size: 14px; box-shadow: 0 0 5px rgba(0, 0, 0, .25); }
+.board .select2-container--default .select2-selection--single .select2-selection__rendered { line-height: 33px; }
+.board .select2-container--default .select2-selection--single .select2-selection__arrow { top: 0; right: 6px; }
+.board .select2-container--default .select2-selection--single, .board .select2-container { height: 33px; }
+.board~.select2-container--open .select2-dropdown--below { box-shadow: 0 0 5px rgba(0, 0, 0, .25); }
+.board~.select2-container { margin-top: 3px; }
+
 .searchResult { top: 53px; left: 0; background: #fff; padding: 20px; border-radius: 10px; width: 500px; 
 	font-size: 20px; line-height: 1.8; }
 .searchResult .btn { font-size: 14px; margin-top: 20px; }
@@ -111,11 +125,6 @@ input:focus-visible { outline: none; }
 
 /* table */
 table { width: 100%; border-collapse: collapse; }
-
-
-
-
-
 table th, table td { padding: 5px 10px; }
 
 .listTable thead { box-shadow: 0 0 20px rgba(0, 0, 0, .25); border-radius: 15px; }
@@ -139,9 +148,6 @@ table th, table td { padding: 5px 10px; }
 .writeTable input[type="text"], .writeTable textarea { width: 80%; }
 .writeTable input[name="writer"] { width: auto; }
 
-.replyTable th, .replyTable td { text-align: center; border-bottom: 1px solid lightgray; }
-.replyTable .content  { text-align: left; }
-
 
 /* button */
 .btn { background: #003366; color: white; border-radius: 10px; border: none; padding: 6px 10px;
@@ -149,6 +155,9 @@ table th, table td { padding: 5px 10px; }
 .btnWhite { background: #fff; color: #000; }
 
 .btnBox { margin-top: 30px; }
+.absoluteBtnBox { bottom: -57px; right: 0; }
+
+section~.btnBox { margin-top: 15px; }
 
 
 /* paging */
@@ -161,11 +170,22 @@ table th, table td { padding: 5px 10px; }
 .contentPage li { width: auto; height: auto; }
 
 
-/* detail */
-.detailContents { padding: 30px 100px; }
-.detailContents .contentTitle { border-radius: 20px; padding: 10px; }
-.detailContents .hashtag { padding: 15px 0; font-size: 16px; }
-.detailContents .content { padding: 20px; border-radius: 20px; }
+/* board */
+.writeContents { margin-bottom: 82px; }
+.writeContents .contentTitle.flex { justify-content: space-between; align-items: center; gap: 15px; padding: 10px 0; }
+.writeContents .contentTitle .input { flex: 1 1 auto; }
+.writeContents .contentTitle input { width: 100%; }
+
+.writeContents, .detailContents { padding: 30px 100px; }
+.writeContents .contentTitle, .detailContents .contentTitle { border-radius: 20px; padding: 10px; margin-bottom: 15px; }
+.detailContents .hashtag { padding-bottom: 15px; font-size: 16px; }
+.writeContents .content, .detailContents .content { padding: 20px; border-radius: 20px; }
+
+.detailComment { padding: 0 100px; margin-top: 15px; }
+.detailComment .comment { padding: 20px; border-radius: 20px; }
+.detailComment textarea.comment { margin: 0 -20px; width: calc(100% + 40px); padding: 10px 20px; }
+
+.detailComment .absoluteBtnBox { bottom: 21px; right: 45px; }
 
 
 /* 본인인증 */
@@ -184,5 +204,42 @@ table th, table td { padding: 5px 10px; }
 .prescription .summary span { padding: 10px; }
 .prescription .summary .title { background: rgba(236,217,176,.8); }
 .prescription .summary .text { flex: 1 1 auto; }
-
 .prescription .summary~.listTable2 { border-top: 2px solid #000; margin: 0; }
+
+
+/* 전체 의약품 조회 */
+.medicineAll { flex-wrap: wrap; justify-content: space-between; }
+.medicineAll .medicineItem { width: 31%; font-size: 18px; margin-bottom: 3%; }
+.medicineAll .medicineItem ul { list-style: circle; padding-left: 20px; }
+.medicineAll .title { font-size: 22px; margin-bottom: 20px; }
+.medicineAll .btn { font-size: 14px; }
+
+
+/* 로그인 */
+.member { width: 720px; margin: 0 auto; padding: 0 0 30px 0; }
+.member .bg { width: 100%; }
+.member .title { font-size: 30px; padding: 20px; }
+.member form { width: 400px; margin: 0 auto;  }
+.member label { font-size: 20px; margin: 10px 0 5px; }
+.member input, .member .btn { width: 100%; }
+.member .btn { margin-bottom: 10px; font-size: 18px; }
+
+.join #id { width: calc(100% - 95px); }
+.join form .flex { justify-content: space-between; }
+.join #id~.btn { width: 85px; margin: 0; font-size: 16px; }
+
+
+/* scrap */
+.scrap { right: -30px; top: 30px; }
+.scrap img { height: 52px; width: auto; }
+
+
+/* editor */	
+.ck.ck-editor__main { max-height: calc(100vh - 300px); overflow: auto; }
+.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable, .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners {
+    min-height: 20rem; border: 1px solid #D9D9D9; box-shadow: none; }
+.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable:focus,
+.ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners:focus {
+    outline: 0; box-shadow: none; }
+.ck.ck-balloon-panel.ck-balloon-panel_position_border-side_right.ck-balloon-panel_visible.ck-powered-by-balloon { display: none; }
+.editor-container_classic-editor .editor-container__editor { max-width: 100%; }

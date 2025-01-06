@@ -4,11 +4,13 @@ public class MemberVo {
 
 	private int midx;
 	private String id;
-	private String password;
+	private String pwd;
 	private String name;
 	private String nickname;
 	private String phone;
 	private String date;
+	private String modify;
+	private String ip;
 	private String delyn;
 	private String admin;
 	
@@ -24,11 +26,11 @@ public class MemberVo {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getPassword() {
-		return password;
+	public String getPwd() {
+		return pwd;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 	public String getName() {
 		return name;
@@ -54,6 +56,18 @@ public class MemberVo {
 	public void setDate(String date) {
 		this.date = date;
 	}
+	public String getModify() {
+		return modify;
+	}
+	public void setModify(String modify) {
+		this.modify = modify;
+	}
+	public String getIp() {
+		return ip;
+	}
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 	public String getDelyn() {
 		return delyn;
 	}
@@ -66,5 +80,6 @@ public class MemberVo {
 	public void setAdmin(String admin) {
 		this.admin = admin;
 	}
+	
 	
 }
