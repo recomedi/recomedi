@@ -380,6 +380,7 @@ public class PrescriptionController {
 	        twoWayInfo.put("threadIndex", threadIndex);
 	        twoWayInfo.put("jti", jti);
 	        twoWayInfo.put("twoWayTimestamp", twoWayTimestamp);
+	        response.put("jti", jti);
 
 	        // 두웨이 정보 포함
 	        twoWayData.put("twoWayInfo", twoWayInfo);
@@ -462,45 +463,96 @@ public class PrescriptionController {
 	        String jti = (String) session.getAttribute("jti");
 	        Long twoWayTimestamp = (Long) session.getAttribute("twoWayTimestamp");
 
-	        // 세션 값 검증
-	        if (jobIndex == null || threadIndex == null || jti == null || twoWayTimestamp == null) {
-	            response.put("verified", false);
-	            response.put("message", "필수 인증 정보가 누락되었습니다. 다시 시도하세요.");
-	            return response;
-	        }
-
-	        // 디버깅 로그: 세션 값 출력
-	        System.out.println("[DEBUG] 세션에서 가져온 추가 인증 정보:");
+	        // 디버깅 로그: 세션 값 검증
+	        System.out.println("[DEBUG] 세션 값 검증:");
 	        System.out.println("jobIndex: " + jobIndex);
 	        System.out.println("threadIndex: " + threadIndex);
 	        System.out.println("jti: " + jti);
 	        System.out.println("twoWayTimestamp: " + twoWayTimestamp);
-	        
-	        System.out.println("[DEBUG] 세션에 저장된 smsCode: " + session.getAttribute("smsCode"));
-	        System.out.println("[DEBUG] 클라이언트에서 전송된 smsAuthNo: " + smsAuthNo);
 
+	        // 세션 값 검증 실패 시 처리
+	        if (jobIndex == null || threadIndex == null || jti == null || twoWayTimestamp == null) {
+	            response.put("verified", false);
+	            response.put("message", "필수 인증 정보가 누락되었습니다. 다시 시도하세요.");
+	            System.err.println("[ERROR] 세션 값이 누락되었습니다.");
+	            return response;
+	        }
 
-	        // twoWayInfo 객체 생성 및 값 저장
+	        // 세션에서 secureNoRequestData 가져오기
+	        @SuppressWarnings("unchecked")
+	        HashMap<String, Object> requestData = (HashMap<String, Object>) session.getAttribute("secureNoRequestData");
+	        System.out.println("[DEBUG] 세션에서 가져온 requestData: " + requestData);
+
+	        if (requestData == null || !requestData.containsKey("organization")) {
+	            response.put("verified", false);
+	            response.put("message", "필수 입력값이 누락되었습니다. 다시 시도하세요.");
+	            System.err.println("[ERROR] 세션 데이터 누락 또는 organization 키 없음.");
+	            return response;
+	        }
+
+	        // 문자 발송 서버에 보낼 데이터 구성
+	        HashMap<String, Object> verificationRequest = new HashMap<>();
+	        verificationRequest.put("smsAuthNo", smsAuthNo);
+	        verificationRequest.put("is2Way", is2Way);
+
 	        HashMap<String, Object> twoWayInfo = new HashMap<>();
 	        twoWayInfo.put("jobIndex", jobIndex);
 	        twoWayInfo.put("threadIndex", threadIndex);
 	        twoWayInfo.put("jti", jti);
 	        twoWayInfo.put("twoWayTimestamp", twoWayTimestamp);
 
-	        // 세션에서 SMS 코드 가져오기
-	        String expectedCode = (String) session.getAttribute("smsCode");
+	        verificationRequest.put("twoWayInfo", twoWayInfo); // 두웨이 정보 포함
 
-	        // SMS 인증번호 검증
-	        if (expectedCode != null && expectedCode.equals(smsAuthNo)) {
-	            response.put("verified", true); // 성공 여부 반환
-	            response.put("message", "SMS 인증 성공");
-	            response.put("twoWayInfo", twoWayInfo); // 두웨이 정보 포함
-	            System.out.println("[DEBUG] SMS 인증 성공");
+	        // 필수 파라미터 추가
+	        verificationRequest.put("organization", requestData.get("organization")); // 조직 정보 추가
+
+	        // 디버깅 로그: CODEF API 요청 데이터 출력
+	        System.out.println("[DEBUG] CODEF API 요청 데이터: " + verificationRequest);
+
+	        // CODEF API 호출 준비
+	        EasyCodefToken tokenService = new EasyCodefToken();
+	        String clientId = "fbbcf915-2395-4dfe-9316-a5ce610fab1a";
+	        String clientSecret = "2b152335-b63a-4596-bf34-5b44f79b41b0";
+	        String accessToken = tokenService.getAccessToken(clientId, clientSecret);
+
+	        if (accessToken.isEmpty()) {
+	            response.put("error", "토큰 발급 실패");
+	            return response;
+	        }
+
+	        // CODEF API 호출
+	        EasyCodefConnector connector = new EasyCodefConnector();
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        
+	        String requestBody = objectMapper.writeValueAsString(verificationRequest);
+
+	        HashMap<String, Object> apiResponse = connector.getRequestProduct(
+	                "https://development.codef.io/v1/kr/public/hw/hira-list/my-medicine",
+	                accessToken,
+	                requestBody
+	        );
+
+	        // 디버깅 로그: CODEF API 응답 데이터 출력
+	        System.out.println("[DEBUG] CODEF API 응답 데이터: " + apiResponse);
+
+	        // CODEF API 응답 처리
+	        if (apiResponse.containsKey("verified")) {
+	            boolean verified = (boolean) apiResponse.getOrDefault("verified", false);
+	            String message = (String) apiResponse.getOrDefault("message", "SMS 인증 실패");
+
+	            if (verified) {
+	                response.put("verified", true);
+	                response.put("message", "SMS 인증 성공");
+	                System.out.println("[DEBUG] SMS 인증 성공");
+	            } else {
+	                response.put("verified", false);
+	                response.put("message", message);
+	                System.err.println("[ERROR] SMS 인증 실패: " + message);
+	            }
 	        } else {
-	            response.put("verified", false); // 실패 여부 반환
-	            response.put("message", "SMS 인증 실패: 잘못된 번호입니다.");
-	            response.put("twoWayInfo", twoWayInfo); // 두웨이 정보 포함 (실패 시에도 반환)
-	            System.err.println("[ERROR] SMS 인증 실패: 잘못된 번호입니다.");
+	            response.put("verified", false);
+	            response.put("message", "CODEF API 응답에 'verified' 키가 없습니다.");
+	            System.err.println("[ERROR] CODEF API 응답 오류: 'verified' 키가 없습니다.");
 	        }
 
 	    } catch (Exception e) {
@@ -511,6 +563,11 @@ public class PrescriptionController {
 
 	    return response;
 	}
+
+
+
+
+
 
 	
 	

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+ 
+<configuration> 
+<typeAliases>
+ <typeAlias alias="mv" type="com.recomedi.myapp.domain.MemberVo"/>
+ <typeAlias alias="bv" type="com.recomedi.myapp.domain.BoardVo"/>
+ <typeAlias alias="scri" type="com.recomedi.myapp.domain.SearchCriteria"/>
+ <typeAlias alias="cv" type="com.recomedi.myapp.domain.CommentVo"/> 
+ <typeAlias alias="sv" type="com.recomedi.myapp.domain.ScrapVo"/>
+ <typeAlias alias="mediv" type="com.recomedi.myapp.domain.MedicineVo"/>
+ <typeAlias alias="pv" type="com.recomedi.myapp.domain.PrescriptionVo"/>
+ <typeAlias alias="dv" type="com.recomedi.myapp.domain.DrugVo"/>
+</typeAliases>
+</configuration>

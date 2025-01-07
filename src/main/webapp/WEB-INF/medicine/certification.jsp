@@ -282,8 +282,12 @@ $('#verify-sms').on('click', function () {
     }
 
     const smsData = {
-        smsAuthNo: smsAuthNumber,
-        is2Way: true // 추가 요청 여부
+    		smsAuthNo: smsAuthNumber,
+            is2Way: true,
+            jobIndex: sessionStorage.getItem('jobIndex') || 0,
+            threadIndex: sessionStorage.getItem('threadIndex') || 0,
+            jti: sessionStorage.getItem('jti') || '',
+            twoWayTimestamp: sessionStorage.getItem('twoWayTimestamp') || Date.now()
     };
 
     console.log('[DEBUG] SMS 인증 요청 데이터:', smsData);
@@ -300,7 +304,6 @@ $('#verify-sms').on('click', function () {
                 window.location.href = '${pageContext.request.contextPath}/medicine/finalResult.do';
             } else {
                 alert(response.message || 'SMS 인증 실패');
-                console.log('[DEBUG] 추가 인증 정보:', response.twoWayInfo); // 두웨이 정보 활용 가능
             }
         },
         error: function (xhr, status, error) {
@@ -309,6 +312,10 @@ $('#verify-sms').on('click', function () {
         }
     });
 });
+
+
+
+
 
 
 
