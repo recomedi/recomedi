@@ -8,11 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -535,24 +537,18 @@ public class PrescriptionController {
 	        // 디버깅 로그: CODEF API 응답 데이터 출력
 	        System.out.println("[DEBUG] CODEF API 응답 데이터: " + apiResponse);
 
-	        // CODEF API 응답 처리
-	        if (apiResponse.containsKey("verified")) {
-	            boolean verified = (boolean) apiResponse.getOrDefault("verified", false);
-	            String message = (String) apiResponse.getOrDefault("message", "SMS 인증 실패");
-
-	            if (verified) {
-	                response.put("verified", true);
-	                response.put("message", "SMS 인증 성공");
-	                System.out.println("[DEBUG] SMS 인증 성공");
-	            } else {
-	                response.put("verified", false);
-	                response.put("message", message);
-	                System.err.println("[ERROR] SMS 인증 실패: " + message);
-	            }
+	     // CODEF API 응답 처리
+	        HashMap<String, Object> result = (HashMap<String, Object>) apiResponse.get("result");
+	        if (result != null && "CF-00000".equals(result.get("code"))) { // 성공 코드 확인
+	            response.put("verified", true);
+	            response.put("message", "SMS 인증 성공");
+	            response.put("data", apiResponse.get("data")); // 필요한 데이터를 클라이언트로 반환
+	            System.out.println("[DEBUG] SMS 인증 성공");
 	        } else {
+	            String errorMessage = (String) result.getOrDefault("message", "CODEF API 요청 실패");
 	            response.put("verified", false);
-	            response.put("message", "CODEF API 응답에 'verified' 키가 없습니다.");
-	            System.err.println("[ERROR] CODEF API 응답 오류: 'verified' 키가 없습니다.");
+	            response.put("message", errorMessage);
+	            System.err.println("[ERROR] SMS 인증 실패: " + errorMessage);
 	        }
 
 	    } catch (Exception e) {
@@ -621,14 +617,11 @@ public class PrescriptionController {
 	
 	
 	@RequestMapping(value = "finalResult.do", method = RequestMethod.GET)
-    public String finalResult(HttpSession session) {
-        // 세션에 저장된 응답 데이터 확인 (디버깅용)
-        Object response = session.getAttribute("response");
-        System.out.println("최종 결과 응답 데이터: " + response);
-
-        // 최종 결과 페이지로 이동
-        return "WEB-INF/medicine/finalResult";
-    }
+	public String finalResult(HttpSession session, Model model) {
+	    List<HashMap<String, Object>> finalResultData = (List<HashMap<String, Object>>) session.getAttribute("finalResultData");
+	    model.addAttribute("finalResultData", finalResultData); // 데이터를 모델에 추가
+	    return "WEB-INF/medicine/finalResult";
+	}
 	
 }
 
