@@ -17,7 +17,7 @@
 	}
 </script>
 </head>
-<body class="flex">
+<body class="main flex">
 	<div class="fixed sideBar">
 		<nav class="flex relative">
 			<ul class="sideMenu">
@@ -49,7 +49,7 @@
 	<header class="relative center" id="hd">
 		<a href="${pageContext.request.contextPath}/" class="logo"><img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo"></a>
 		<div class="absolute menu flex">
-			<a href="#" class="relative alarm confirmation"><img src="${pageContext.request.contextPath}/resources/images/alarm.png" alt="alarm"></a>
+			<a href="#" class="relative alarm confirmation"><img src="${pageContext.request.contextPath}/resources/images/alarm_w.png" alt="alarm"></a>
 			<button class="btnMenu flex"><p class="first"></p><p class="second"></p><p class="third"></p></button>
 		</div>
 	</header>
