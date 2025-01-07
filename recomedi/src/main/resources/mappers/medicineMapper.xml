@@ -16,7 +16,7 @@
 	<select id="medicineSelectAll" parameterType="HashMap" resultType="mdv">
 		select * from MEDICINE where delyn='N'
 		<include refid="search" />
-		order by medidx desc limeit #{startPageNum}, #{perPageNum}
+		order by medidx desc limit #{startPageNum}, #{perPageNum}
 	</select>
 	
 	<select id="medicineListTotalCount" parameterType="scri" resultType="int">
@@ -25,7 +25,11 @@
 	</select>
 	
 	<select id="medicineSelectOne" parameterType="int" resultType="mdv">
-		select * from where delyn='N' and medidx=#{medidx} 
+		select * from MEDICINE where delyn='N' and medidx=#{medidx} 
+	</select>
+	
+	<select id="medicineSearchHashTag" parameterType="String" resultType="mdv">
+		select itemName, entpName from MEDICINE where delyn='N' and efcyQesitm like concat ('%',#{HashTag},'%')
 	</select>
 	
 </mapper>

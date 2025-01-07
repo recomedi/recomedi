@@ -53,7 +53,7 @@
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 	
 	<!-- 적용 범위 지정 -->
-	<context:component-scan base-package="com.myprj.myapp">
+	<context:component-scan base-package="com.recomedi.myapp">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 	

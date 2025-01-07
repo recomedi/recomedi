@@ -2,7 +2,7 @@ package com.recomedi.myapp.domain;
 
 public class Criteria {
 	private int page = 1;
-	private int perPageNum = 12;
+	private int perPageNum = 15;
 	
 	public int getPage() {
 		return page;

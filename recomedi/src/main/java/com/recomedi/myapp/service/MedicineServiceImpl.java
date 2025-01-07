@@ -4,47 +4,56 @@ import com.recomedi.myapp.domain.MedicineVo;
 import com.recomedi.myapp.domain.SearchCriteria;
 import com.recomedi.myapp.persistance.MedicineMapper;
 import com.recomedi.myapp.util.ApiUtil;
+
+import org.apache.ibatis.session.SqlSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MedicineServiceImpl implements MedicineService {
 
-    private final ApiUtil apiUtil;
-    private MedicineMapper mdm;
+	private MedicineMapper mdm;
+	
+	@Autowired
+	public MedicineServiceImpl(SqlSession sqlSession) {
+		this.mdm = sqlSession.getMapper(MedicineMapper.class);
+	}
+//    private ApiUtil apiUtil;
     
-    public MedicineServiceImpl() {
-    	this.apiUtil = new ApiUtil();
-    }
+//    public MedicineServiceImpl() {
+//    	this.apiUtil = new ApiUtil();
+//    }
 
-    @Override
-    public List<MedicineVo> getMedicineData(String pageNo, String numOfRows) {
-        String response = apiUtil.callpublicApi(pageNo, numOfRows);
-
-        List<MedicineVo> medicineList = new ArrayList<>();
-        if (response != null) {
-            JSONObject jsonResponse = new JSONObject(response);
-            JSONArray items = jsonResponse.getJSONObject("response").getJSONObject("body").getJSONArray("items");
-
-            for (int i = 0; i < items.length(); i++) {
-                JSONObject item = items.getJSONObject(i);
-
-                MedicineVo medicine = new MedicineVo();
-                medicine.setItemName(item.getString("itemName"));
-                medicine.setEntpName(item.getString("entpName"));
-                medicine.setEfcyQesitm(item.getString("efcyQesitm"));
-
-                medicineList.add(medicine);
-            }
-        }
-
-        return medicineList;
-    }
+//    @Override
+//    public List<MedicineVo> getMedicineData(String pageNo, String numOfRows) {
+//        String response = apiUtil.callpublicApi(pageNo, numOfRows);
+//
+//        List<MedicineVo> medicineList = new ArrayList<>();
+//        if (response != null) {
+//            JSONObject jsonResponse = new JSONObject(response);
+//            JSONArray items = jsonResponse.getJSONObject("response").getJSONObject("body").getJSONArray("items");
+//
+//            for (int i = 0; i < items.length(); i++) {
+//                JSONObject item = items.getJSONObject(i);
+//
+//                MedicineVo medicine = new MedicineVo();
+//                medicine.setItemName(item.getString("itemName"));
+//                medicine.setEntpName(item.getString("entpName"));
+//                medicine.setEfcyQesitm(item.getString("efcyQesitm"));
+//
+//                medicineList.add(medicine);
+//            }
+//        }
+//
+//        return medicineList;
+//    }
     
     @Override
     public int medicineListTotalCount(SearchCriteria scri) {
@@ -52,7 +61,6 @@ public class MedicineServiceImpl implements MedicineService {
     	int cnt = mdm.medicineListTotalCount(scri);
     	
     	return cnt;
-    	
     }
 
 	@Override
@@ -68,6 +76,19 @@ public class MedicineServiceImpl implements MedicineService {
 		
 		return mlist;
 	}
+	
+    @Override
+    public Map<String, List<MedicineVo>> medicineHashTag(List<String> hashTags) {
+        Map<String, List<MedicineVo>> resultMap = new HashMap<>();
+
+        // 각 해시태그에 대해 DB 검색
+        for (String tag : hashTags) {
+            List<MedicineVo> medicines = mdm.medicineHashTag(tag);
+            resultMap.put(tag, medicines);
+        }
+
+        return resultMap;
+    }
 
 	@Override
 	public MedicineVo medicineSelectOne(int medidx) {
@@ -76,6 +97,7 @@ public class MedicineServiceImpl implements MedicineService {
 		
 		return mdv;
 	}
+
     
 }
  

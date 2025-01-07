@@ -21,23 +21,9 @@ public class HomeController {
 	@RequestMapping(value = "/main.do")
 	public String mainPage(Model model) {
 		
-		logger.info("mainµé¾î¿È");
-		
-		
-		// CodefToken »ý¼º
-		String clientId = "fbbcf915-2395-4dfe-9316-a5ce610fab1a";
-		String clientSecret = "2b152335-b63a-4596-bf34-5b44f79b41b0";
-
-		// CodefTokenExample °´Ã¼ »ý¼º
-		EasyCodefToken easyCodefToken = new EasyCodefToken();
+		logger.info("mainë“¤ì–´");
         
-        // getAccessToken È£Ãâ
-        String accessToken = easyCodefToken.getAccessToken(clientId, clientSecret);
-        
-        // °á°ú Ãâ·Â
-        System.out.println("Access Token: " + accessToken);
-        
-        // CodefToken »ç¿ë
+        // CodefToken ï¿½ï¿½ï¿½
 //		        HttpURLConnection con = (HttpURLConnection) url.openConnection();
 //		        con.setRequestProperty("Authorization", "Bearer " + token);
 
