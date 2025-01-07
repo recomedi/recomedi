@@ -3,6 +3,7 @@ package com.recomedi.myapp.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,20 +70,19 @@ public class MedicineController {
 	public String medicineHashTag(Model model) {
 
 	    // 해시태그 리스트 정의
-	    List<String> hashTags = Arrays.asList("감기", "소화제", "해열제", "진통제", "피부약", "속쓰림", "구충제", "불면증", "육체피로");
+	    List<String> hashTags = Arrays.asList("감기", "소화", "해열", "진통", "피부", "속쓰림", "구충", "불면증", "육체피로");
 
-	    // 각 해시태그에 대한 검색 결과 가져오기
-	    Map<String, List<MedicineVo>> hashTagResults = medicineService.medicineHashTag(hashTags);
+	    // 해시태그별 검색 결과를 Map에 담기
+	    Map<String, List<MedicineVo>> mlist = new HashMap<>();
+	    for (String tag : hashTags) {
+	        List<MedicineVo> medicines = medicineService.medicineHashTag(tag);
+	        mlist.put(tag, medicines);
+	    }
 
 	    // 모델에 데이터 추가
-	    model.addAttribute("hashTagResults", hashTagResults);
-
-	    // 해시태그 리스트 추가 (뷰에서 #해시태그 출력에 사용)
-	    model.addAttribute("hashTags", hashTags);
-		
-		
-		String path = "WEB-INF/medicine/medicineHashTag";
-		return path;
+	    model.addAttribute("mlist", mlist);
+	    
+	    return "WEB-INF/medicine/medicineHashTag";
 	}
 	
 	

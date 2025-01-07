@@ -13,6 +13,6 @@ public interface MedicineService {
     public int medicineListTotalCount(SearchCriteria scri);
     public MedicineVo medicineSelectOne(int medidx);
     public ArrayList<MedicineVo> medicineSelectAll(SearchCriteria scri);
-    public Map<String, List<MedicineVo>> medicineHashTag(List<String> hashTags);
+    public List<MedicineVo> medicineHashTag(String hashTag);
 }
 

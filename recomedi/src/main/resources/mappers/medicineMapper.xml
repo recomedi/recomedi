@@ -28,8 +28,8 @@
 		select * from MEDICINE where delyn='N' and medidx=#{medidx} 
 	</select>
 	
-	<select id="medicineSearchHashTag" parameterType="String" resultType="mdv">
-		select itemName, entpName from MEDICINE where delyn='N' and efcyQesitm like concat ('%',#{HashTag},'%')
+	<select id="medicineHashTag" parameterType="String" resultType="mdv">
+		select itemName, entpName from MEDICINE where delyn='N' and efcyQesitm like concat ('%',#{hashTag},'%')
 	</select>
 	
 </mapper>

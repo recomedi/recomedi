@@ -77,17 +77,14 @@ public class MedicineServiceImpl implements MedicineService {
 		return mlist;
 	}
 	
+
     @Override
-    public Map<String, List<MedicineVo>> medicineHashTag(List<String> hashTags) {
-        Map<String, List<MedicineVo>> resultMap = new HashMap<>();
-
-        // 각 해시태그에 대해 DB 검색
-        for (String tag : hashTags) {
-            List<MedicineVo> medicines = mdm.medicineHashTag(tag);
-            resultMap.put(tag, medicines);
-        }
-
-        return resultMap;
+    public List<MedicineVo> medicineHashTag(String hashTag) {
+    	
+    	List<MedicineVo> mlist = mdm.medicineHashTag(hashTag);
+    	
+    	return mlist;
+    
     }
 
 	@Override

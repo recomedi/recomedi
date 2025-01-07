@@ -42,7 +42,7 @@
 			<div class="medicineItem section shadow">
 				<h3 class="regular title">#감기</h3>
 				<ul>
-				<c:forEach items="${mlist}" var="mdv" varStatus="status" begin="0" end="5">
+				<c:forEach items="${mlist['감기']}" var="mdv" varStatus="status" begin="0" end="5">
 				<li><a href="${pageContext.request.contextPath}/medicine/medicineContents.do?medidx=${mdv.medidx}">${mdv.itemName} - ${mdv.entpName}</a></li>	
 				</c:forEach>
 				</ul>
@@ -53,113 +53,89 @@
 			<div class="medicineItem section shadow">
 				<h3 class="regular title">#소화제</h3>
 				<ul>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
+				<c:forEach items="${mlist['소화']}" var="mdv" varStatus="status" begin="0" end="5">
+				<li><a href="${pageContext.request.contextPath}/medicine/medicineContents.do?medidx=${mdv.medidx}">${mdv.itemName} - ${mdv.entpName}</a></li>	
+				</c:forEach>
 				</ul>
 				<div class="btnBox right">
-					<a href="#" class="btn">더보기</a>
+					<a href="${pageContext.request.contextPath}/medicine/medicineList.do" class="btn">더보기</a>
 				</div>
 			</div>
 			<div class="medicineItem section shadow">
 				<h3 class="regular title">#해열제</h3>
 				<ul>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
+				<c:forEach items="${mlist['해열']}" var="mdv" varStatus="status" begin="0" end="5">
+				<li><a href="${pageContext.request.contextPath}/medicine/medicineContents.do?medidx=${mdv.medidx}">${mdv.itemName} - ${mdv.entpName}</a></li>	
+				</c:forEach>
 				</ul>
 				<div class="btnBox right">
-					<a href="#" class="btn">더보기</a>
+					<a href="${pageContext.request.contextPath}/medicine/medicineList.do" class="btn">더보기</a>
 				</div>
 			</div>
 			<div class="medicineItem section shadow">
 				<h3 class="regular title">#진통제</h3>
 				<ul>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
+				<c:forEach items="${mlist['진통']}" var="mdv" varStatus="status" begin="0" end="5">
+				<li><a href="${pageContext.request.contextPath}/medicine/medicineContents.do?medidx=${mdv.medidx}">${mdv.itemName} - ${mdv.entpName}</a></li>	
+				</c:forEach>
 				</ul>
 				<div class="btnBox right">
-					<a href="#" class="btn">더보기</a>
+					<a href="${pageContext.request.contextPath}/medicine/medicineList.do" class="btn">더보기</a>
 				</div>
 			</div>
 			<div class="medicineItem section shadow">
 				<h3 class="regular title">#피부약</h3>
 				<ul>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
+				<c:forEach items="${mlist['피부']}" var="mdv" varStatus="status" begin="0" end="5">
+				<li><a href="${pageContext.request.contextPath}/medicine/medicineContents.do?medidx=${mdv.medidx}">${mdv.itemName} - ${mdv.entpName}</a></li>	
+				</c:forEach>
 				</ul>
 				<div class="btnBox right">
-					<a href="#" class="btn">더보기</a>
+					<a href="${pageContext.request.contextPath}/medicine/medicineList.do" class="btn">더보기</a>
 				</div>
 			</div>
 			<div class="medicineItem section shadow">
 				<h3 class="regular title">#제산제</h3>
 				<ul>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
+				<c:forEach items="${mlist['속쓰림']}" var="mdv" varStatus="status" begin="0" end="5">
+				<li><a href="${pageContext.request.contextPath}/medicine/medicineContents.do?medidx=${mdv.medidx}">${mdv.itemName} - ${mdv.entpName}</a></li>	
+				</c:forEach>
 				</ul>
 				<div class="btnBox right">
-					<a href="#" class="btn">더보기</a>
+					<a href="${pageContext.request.contextPath}/medicine/medicineList.do" class="btn">더보기</a>
 				</div>
 			</div>
-						<div class="medicineItem section shadow">
+			<div class="medicineItem section shadow">
 				<h3 class="regular title">#피로회복제</h3>
 				<ul>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
+				<c:forEach items="${mlist['육체피로']}" var="mdv" varStatus="status" begin="0" end="5">
+				<li><a href="${pageContext.request.contextPath}/medicine/medicineContents.do?medidx=${mdv.medidx}">${mdv.itemName} - ${mdv.entpName}</a></li>	
+				</c:forEach>
 				</ul>
 				<div class="btnBox right">
-					<a href="#" class="btn">더보기</a>
+					<a href="${pageContext.request.contextPath}/medicine/medicineList.do" class="btn">더보기</a>
 				</div>
 			</div>
 			<div class="medicineItem section shadow">
 				<h3 class="regular title">#구충제</h3>
 				<ul>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
+				<c:forEach items="${mlist['구충']}" var="mdv" varStatus="status" begin="0" end="5">
+				<li><a href="${pageContext.request.contextPath}/medicine/medicineContents.do?medidx=${mdv.medidx}">${mdv.itemName} - ${mdv.entpName}</a></li>	
+				</c:forEach>
 				</ul>
 				<div class="btnBox right">
-					<a href="#" class="btn">더보기</a>
+					<a href="${pageContext.request.contextPath}/medicine/medicineList.do" class="btn">더보기</a>
 				</div>
 			</div>
 			<div class="medicineItem section shadow">
 				<h3 class="regular title">#수면유도제</h3>
 				<ul>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
-					<li><a href="#">약설명</a></li>
+				<c:forEach items="${mlist['불면']}" var="mdv" varStatus="status" begin="0" end="5">
+				<li><a href="${pageContext.request.contextPath}/medicine/medicineContents.do?medidx=${mdv.medidx}">${mdv.itemName} - ${mdv.entpName}</a></li>	
+				</c:forEach>
 				</ul>
 				<div class="btnBox right">
-					<a href="#" class="btn">더보기</a>
+					<a href="${pageContext.request.contextPath}/medicine/medicineList.do" class="btn">더보기</a>
 				</div>
 			</div>
 		</section>
