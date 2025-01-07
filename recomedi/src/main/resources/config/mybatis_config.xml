@@ -8,7 +8,8 @@
  <typeAlias alias="scri" type="com.recomedi.myapp.domain.SearchCriteria"/>
  <typeAlias alias="cv" type="com.recomedi.myapp.domain.CommentVo"/> 
  <typeAlias alias="sv" type="com.recomedi.myapp.domain.ScrapVo"/>
- <typeAlias alias="mediv" type="com.recomedi.myapp.domain.MedicineVo"/>
+ <typeAlias alias="sd" type="com.recomedi.myapp.domain.ScrapDto"/>
+ <typeAlias alias="mdv" type="com.recomedi.myapp.domain.MedicineVo"/>
  <typeAlias alias="pv" type="com.recomedi.myapp.domain.PrescriptionVo"/>
  <typeAlias alias="dv" type="com.recomedi.myapp.domain.DrugVo"/>
 </typeAliases>

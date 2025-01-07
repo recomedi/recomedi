@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.recomedi.myapp.persistance.ScrapMapper">
+	
+	<!-- 자바처럼 sql문과 java를 섞어서 사용할 수 없어서 include해서 사용한다 -->
+	<sql id="search">
+		<if test="searchType != null and searchType.equals('itemName')">
+			and M.itemName like concat('%',#{keyword},'%')
+		</if>
+		<if test="searchType != null and searchType.equals('efcyQesitm')">
+			and M.efcyQesitm like concat('%',#{keyword},'%')
+		</if>
+	</sql>		
+		
+	<select id="scrapSelectAll" parameterType="HashMap" resultType="sd">
+		SELECT S.*, M.itemName, M.efcyQesitm, M.itemSeq FROM SCRAP AS S JOIN MEDICINE AS M ON S.medidx = M.medidx 
+		WHERE S.delyn = 'N' AND S.midx = #{midx} 
+		<include refid="search"/>
+		ORDER BY sidx DESC limit #{startPageNum}, #{perPageNum}
+	</select>
+		
+  	<select id="scrapTotalCount" parameterType="HashMap" resultType="int">
+		SELECT COUNT(*) AS cnt from SCRAP AS S JOIN MEDICINE AS M ON S.medidx = M.medidx 
+		WHERE S.delyn = 'N' AND midx = #{midx} 
+		<include refid="search"/>
+	</select>
+	
+	<update id="scrapDelete" parameterType="HashMap">
+		UPDATE SCRAP SET delyn = 'Y', modify = now() where sidx = #{sidx} AND midx = #{midx}
+	</update>
+	
+</mapper>
