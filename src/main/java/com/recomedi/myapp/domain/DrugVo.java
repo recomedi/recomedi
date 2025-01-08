@@ -16,7 +16,17 @@ public class DrugVo {
 	private String date;
 	private String ip;
 	private String delyn;
+	private String ResNumber;
 	
+	
+	
+	
+	public String getResNumber() {
+		return ResNumber;
+	}
+	public void setResNumber(String resNumber) {
+		ResNumber = resNumber;
+	}
 	public int getDidx() {
 		return didx;
 	}

@@ -300,8 +300,8 @@ $('#verify-sms').on('click', function () {
             console.log('[DEBUG] SMS 인증 응답:', response);
 
             if (response.verified) {
-                alert('SMS 인증 성공! 최종 결과 페이지로 이동합니다.');
-                window.location.href = '${pageContext.request.contextPath}/medicine/finalResult.do';
+                alert('SMS인증 성공! 처방목록 페이지로 이동합니다.');
+                window.location.href = '${pageContext.request.contextPath}/medicine/prescriptionList.do';
             } else {
                 alert(response.message || 'SMS 인증 실패');
             }

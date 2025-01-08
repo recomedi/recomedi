@@ -84,85 +84,79 @@ body {
     <div class="section">
         <h2>사용자 정보</h2>
         <table class="table">
-            <tr>
-                <th>이름</th>
-                <td>${sessionScope.response.data.resName}</td>
-            </tr>
-            <tr>
-                <th>처방 기관</th>
-                <td>${sessionScope.response.data.resPrescribeOrg}</td>
-            </tr>
-            <tr>
-                <th>처방 번호</th>
-                <td>${sessionScope.response.data.resPrescribeNo}</td>
-            </tr>
-            <tr>
-                <th>제조 일자</th>
-                <td>${sessionScope.response.data.resManufactureDate}</td>
-            </tr>
-        </table>
-    </div>
+         <tr>
+			    <th>이름</th>
+			    <td>${response[0].resName}</td>
+			</tr>
+			<tr>
+			    <th>처방 기관</th>
+			    <td>${response[0].resPrescribeOrg}</td>
+			</tr>
+			<tr>
+			    <th>처방 번호</th>
+			    <td>${response[0].resPrescribeNo}</td>
+			</tr>
+			<tr>
+			    <th>제조 일자</th>
+			    <td>${response[0].resManufactureDate}</td>
+			</tr>
+			
+			<c:forEach var="drug" items="${response[0].resDrugList}">
+			    <table class="table">
+			        <tr>
+			            <th>약물 이름</th>
+			            <td>${drug.resDrugName}</td>
+			        </tr>
+			        <tr>
+			            <th>약물 코드</th>
+			            <td>${drug.resDrugCode}</td>
+			        </tr>
+			        <tr>
+			            <th>성분</th>
+			            <td>${drug.resIngredients}</td>
+			        </tr>
+			        <tr>
+			            <th>효능</th>
+			            <td>${drug.resPrescribeDrugEffect}</td>
+			        </tr>
+			        <tr>
+			            <th>복용 방법</th>
+			            <td>${drug.resMedicationDirection}</td>
+			        </tr>
+			        <tr>
+			            <th>복용 기간</th>
+			            <td>${drug.resTotalDosingdays}일</td>
+			        </tr>
+			        <tr>
+			            <th>하루 복용 횟수</th>
+			            <td>${drug.resDailyDosesNumber}회</td>
+			        </tr>
+			        <tr>
+			            <th>복용량</th>
+			            <td>${drug.resOneDose}</td>
+			        </tr>
+			
+			        <!-- 약물 이미지 -->
+			        <c:if test="${not empty drug.resDrugImageLink}">
+			            <tr>
+			                <th>약물 이미지</th>
+			                <td><img src="${drug.resDrugImageLink}" alt="약물 이미지" style="max-width:200px;"></td>
+			            </tr>
+			        </c:if>
+			
+			    </table>
+			
+			    <!-- 약물 간격 -->
+			    <hr style="margin-top:20px; margin-bottom:20px;">
+			</c:forEach>
+			
+			<c:if test="${empty response[0].resDrugList}">
+			    <p>조회된 약물 정보가 없습니다.</p>
+			</c:if>
 
-    <!-- 약물 정보 -->
-    <div class="section">
-        <h2>약물 정보</h2>
 
-        <!-- 약물 리스트 -->
-        <c:forEach var="drug" items="${sessionScope.response.data.resDrugList}">
-            <table class="table">
-                <tr>
-                    <th>약물 이름</th>
-                    <td>${drug.resDrugName}</td>
-                </tr>
-                <tr>
-                    <th>약물 코드</th>
-                    <td>${drug.resDrugCode}</td>
-                </tr>
-                <tr>
-                    <th>성분</th>
-                    <td>${drug.resIngredients}</td>
-                </tr>
-                <tr>
-                    <th>효능</th>
-                    <td>${drug.resPrescribeDrugEffect}</td>
-                </tr>
-                <tr>
-                    <th>복용 방법</th>
-                    <td>${drug.resMedicationDirection}</td>
-                </tr>
-                <tr>
-                    <th>복용 기간</th>
-                    <td>${drug.resTotalDosingdays}일</td>
-                </tr>
-                <tr>
-                    <th>하루 복용 횟수</th>
-                    <td>${drug.resDailyDosesNumber}회</td>
-                </tr>
-                <tr>
-                    <th>복용량</th>
-                    <td>${drug.resOneDose}</td>
-                </tr>
 
-                <!-- 약물 이미지 -->
-                <c:if test="${not empty drug.resDrugImageLink}">
-                    <tr>
-                        <th>약물 이미지</th>
-                        <td><img src="${drug.resDrugImageLink}" alt="약물 이미지" style="max-width:200px;"></td>
-                    </tr>
-                </c:if>
-
-            </table>
-
-            <!-- 약물 간격 -->
-            <hr style="margin-top:20px; margin-bottom:20px;">
-        </c:forEach>
-
-        <!-- 약물이 없는 경우 -->
-        <c:if test="${empty sessionScope.response.data.resDrugList}">
-            <p>조회된 약물 정보가 없습니다.</p>
-        </c:if>
-
-    </div>
+		</div>
 
     <!-- 버튼 -->
     <div class="button-group">
