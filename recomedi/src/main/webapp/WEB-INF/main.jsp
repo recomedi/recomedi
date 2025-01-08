@@ -7,8 +7,8 @@
 	<div class="wrapper flex">		
 		<form class="mainSarch flex">
 			<select class="select2" name="" id="">
-				<option value="">제품명</option>
-				<option value="">효능</option>
+				<option value="itemName">제품명</option>
+				<option value="efcyQesitm">효능</option>
 			</select>
 			<div class="relative">
 				<div class="flex">

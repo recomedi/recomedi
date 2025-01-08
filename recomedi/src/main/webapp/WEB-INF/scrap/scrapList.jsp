@@ -3,14 +3,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-
-	<%@ include file="/WEB-INF/header.jsp" %>
+	<%@ include file="/WEB-INF/slideBar.jsp" %>
+	
+	<header class="relative center" id="hd">
+		<a href="${pageContext.request.contextPath}/" class="absolute logo"><img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo"></a>
+		<h2 class="mainTitle relative bold">스크랩</h2>
+		<div class="absolute menu flex">
+			<a href="#" class="relative alarm confirmation"><img src="${pageContext.request.contextPath}/resources/images/alarm.png" alt="alarm"></a>
+			<button class="btnMenu flex"><p class="first"></p><p class="second"></p><p class="third"></p></button>
+		</div>
+	</header>	
  
  	<div class="wrapper board">
 		<form class="search flex">
 			<select name="searchType" class="select2">
-				<option value="itemName" select>제품명</option>
-				<option value="efcyQesitm">해시태그</option>
+				<option value="itemName" selected>제품명</option>
+				<option value="efcyQesitm">효능·효과</option>
 			</select>
 			<input type="text" placeholder="제품명을 입력해주세요." name="keyword">
 			<button class="btn">검색</button>
@@ -41,7 +49,7 @@
 						<tr>
 							<td><input type="checkbox" value="${sd.sidx}" class="check"></td>
 							<td>${requestScope.pm.totalCount - (requestScope.pm.scri.page - 1) * requestScope.pm.scri.perPageNum - status.index}</td>
-							<td class="tbTitle"><a href="${pageContext.request.contextPath}/medicine/${sd.itemSeq}/modicineContents.do">${sd.itemName}</a></td>
+							<td class="tbTitle"><a href="${pageContext.request.contextPath}/medicine/${sd.itemSeq}/medicineContents.do">${sd.itemName}</a></td>
 							<td>${sd.efcyQesitm}</td>
 							<td>
 							<c:choose> 
