@@ -1,4 +1,5 @@
 package com.recomedi.myapp.api;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -14,8 +15,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *   |_ EasyCodef.java
  * </pre>
  * 
- * Desc : 코드에프의 쉬운 사용을 위한 유틸 라이브러리 클래스 
- * @Company : ©CODEF corp.
+ * Desc : 肄붾뱶�뿉�봽�쓽 �돩�슫 �궗�슜�쓣 �쐞�븳 �쑀�떥 �씪�씠釉뚮윭由� �겢�옒�뒪 
+ * @Company : 짤CODEF corp.
  * @Author  : notfound404@codef.io
  * @Date    : Jun 26, 2020 3:28:31 PM
  */
@@ -24,13 +25,13 @@ public class EasyCodef {
 	private ObjectMapper mapper = new ObjectMapper();
 	
 	/**
-	 * EasyCodef 사용을 위한 변수 설정 오브젝트
+	 * EasyCodef �궗�슜�쓣 �쐞�븳 蹂��닔 �꽕�젙 �삤釉뚯젥�듃
 	 */
 	private EasyCodefProperties properties = new EasyCodefProperties();
 
 	/**
-	 * Desc : 정식서버 사용을 위한 클라이언트 정보 설정
-	 * @Company : ©CODEF corp.
+	 * Desc : �젙�떇�꽌踰� �궗�슜�쓣 �쐞�븳 �겢�씪�씠�뼵�듃 �젙蹂� �꽕�젙
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:30:59 PM
 	 * @param clientId
@@ -41,8 +42,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : 데모서버 사용을 위한 클라이언트 정보 설정
-	 * @Company : ©CODEF corp.
+	 * Desc : �뜲紐⑥꽌踰� �궗�슜�쓣 �쐞�븳 �겢�씪�씠�뼵�듃 �젙蹂� �꽕�젙
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:31:12 PM
 	 * @param demoClientId
@@ -53,8 +54,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : RSA암호화를 위한 퍼블릭키 설정
-	 * @Company : ©CODEF corp.
+	 * Desc : RSA�븫�샇�솕瑜� �쐞�븳 �띁釉붾┃�궎 �꽕�젙
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:31:24 PM
 	 * @param publicKey
@@ -64,8 +65,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : RSA암호화를 위한 퍼블릭키 반환
-	 * @Company : ©CODEF corp.
+	 * Desc : RSA�븫�샇�솕瑜� �쐞�븳 �띁釉붾┃�궎 諛섑솚
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:32:25 PM
 	 * @return
@@ -75,8 +76,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : 상품 요청 
-	 * @Company : ©CODEF corp.
+	 * Desc : �긽�뭹 �슂泥� 
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:32:31 PM
 	 * @param productUrl
@@ -90,37 +91,37 @@ public class EasyCodef {
 	public String requestProduct(String productUrl, EasyCodefServiceType serviceType, HashMap<String, Object> parameterMap) throws UnsupportedEncodingException, JsonProcessingException, InterruptedException {
 		boolean validationFlag = true;
 		
-		/**	#1.필수 항목 체크 - 클라이언트 정보	*/
+		/**	#1.�븘�닔 �빆紐� 泥댄겕 - �겢�씪�씠�뼵�듃 �젙蹂�	*/
 		validationFlag = checkClientInfo(serviceType.getServiceType());
 		if(!validationFlag) {
 			EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.EMPTY_CLIENT_INFO);
 			return mapper.writeValueAsString(response);
 		}
 		
-		/**	#2.필수 항목 체크 - 퍼블릭 키	*/
+		/**	#2.�븘�닔 �빆紐� 泥댄겕 - �띁釉붾┃ �궎	*/
 		validationFlag = checkPublicKey();
 		if(!validationFlag) {
 			EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.EMPTY_PUBLIC_KEY);
 			return mapper.writeValueAsString(response);
 		}
 		
-		/**	#3.추가인증 키워드 체크	*/
+		/**	#3.異붽��씤利� �궎�썙�뱶 泥댄겕	*/
 		validationFlag = checkTwoWayKeyword(parameterMap);
 		if(!validationFlag) {
 			EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.INVALID_2WAY_KEYWORD);
 			return mapper.writeValueAsString(response);
 		}
 		
-		/**	#4.상품 조회 요청	*/
+		/**	#4.�긽�뭹 議고쉶 �슂泥�	*/
 		EasyCodefResponse response = EasyCodefConnector.execute(productUrl, serviceType.getServiceType(), parameterMap, properties);
 		
-		/**	#5.결과 반환	*/
+		/**	#5.寃곌낵 諛섑솚	*/
 		return mapper.writeValueAsString(response);
 	}
 	
 	/**
-	 * Desc : 상품 추가인증 요청
-	 * @Company : ©CODEF corp.
+	 * Desc : �긽�뭹 異붽��씤利� �슂泥�
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:32:41 PM
 	 * @param productUrl
@@ -134,38 +135,38 @@ public class EasyCodef {
 	public String requestCertification(String productUrl, EasyCodefServiceType serviceType, HashMap<String, Object> parameterMap) throws UnsupportedEncodingException, JsonProcessingException, InterruptedException {
 		boolean validationFlag = true;
 		
-		/**	#1.필수 항목 체크 - 클라이언트 정보	*/
+		/**	#1.�븘�닔 �빆紐� 泥댄겕 - �겢�씪�씠�뼵�듃 �젙蹂�	*/
 		validationFlag = checkClientInfo(serviceType.getServiceType());
 		if(!validationFlag) {
 			EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.EMPTY_CLIENT_INFO);
 			return mapper.writeValueAsString(response);
 		}
 		
-		/**	#2.필수 항목 체크 - 퍼블릭 키	*/
+		/**	#2.�븘�닔 �빆紐� 泥댄겕 - �띁釉붾┃ �궎	*/
 		validationFlag = checkPublicKey();
 		if(!validationFlag) {
 			EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.EMPTY_PUBLIC_KEY);
 			return mapper.writeValueAsString(response);
 		}
 		
-		/**	#3.추가인증 파라미터 필수 입력 체크	*/
+		/**	#3.異붽��씤利� �뙆�씪誘명꽣 �븘�닔 �엯�젰 泥댄겕	*/
 		validationFlag = checkTwoWayInfo(parameterMap);
 		if(!validationFlag) {
 			EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.INVALID_2WAY_INFO);
 			return mapper.writeValueAsString(response);
 		}
 		
-		/**	#4.상품 조회 요청	*/
+		/**	#4.�긽�뭹 議고쉶 �슂泥�	*/
 		EasyCodefResponse response = EasyCodefConnector.execute(productUrl, serviceType.getServiceType(), parameterMap, properties);
 		
-		/**	#5.결과 반환	*/
+		/**	#5.寃곌낵 諛섑솚	*/
 		return mapper.writeValueAsString(response);
 	}
 	
 	
 	/**
-	 * Desc : 서비스 타입에 따른 클라이언트 정보 설정 확인
-	 * @Company : ©CODEF corp.
+	 * Desc : �꽌鍮꾩뒪 ���엯�뿉 �뵲瑜� �겢�씪�씠�뼵�듃 �젙蹂� �꽕�젙 �솗�씤
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:33:23 PM
 	 * @param serviceType
@@ -198,8 +199,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : 퍼블릭키 정보 설정 확인
-	 * @Company : ©CODEF corp.
+	 * Desc : �띁釉붾┃�궎 �젙蹂� �꽕�젙 �솗�씤
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:33:31 PM
 	 * @return
@@ -212,8 +213,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : 추가인증 파라미터 설정 확인
-	 * @Company : ©CODEF corp.
+	 * Desc : 異붽��씤利� �뙆�씪誘명꽣 �꽕�젙 �솗�씤
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:33:39 PM
 	 * @param parameterMap
@@ -238,8 +239,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : 추가인증 키워드 확인
-	 * @Company : ©CODEF corp.
+	 * Desc : 異붽��씤利� �궎�썙�뱶 �솗�씤
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:33:45 PM
 	 * @param parameterMap
@@ -255,8 +256,8 @@ public class EasyCodef {
 	
 	
 	/**
-	 * Desc : connectedId 발급을 위한 계정 등록
-	 * @Company : ©CODEF corp.
+	 * Desc : connectedId 諛쒓툒�쓣 �쐞�븳 怨꾩젙 �벑濡�
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:34:02 PM
 	 * @param serviceType
@@ -271,8 +272,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : 계정 정보 추가
-	 * @Company : ©CODEF corp.
+	 * Desc : 怨꾩젙 �젙蹂� 異붽�
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:34:11 PM
 	 * @param serviceType
@@ -287,8 +288,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : 계정 정보 수정 
-	 * @Company : ©CODEF corp.
+	 * Desc : 怨꾩젙 �젙蹂� �닔�젙 
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:34:21 PM
 	 * @param serviceType
@@ -303,8 +304,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : 계정 정보 삭제
-	 * @Company : ©CODEF corp.
+	 * Desc : 怨꾩젙 �젙蹂� �궘�젣
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:34:30 PM
 	 * @param serviceType
@@ -319,8 +320,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : connectedId로 등록된 계정 목록 조회
-	 * @Company : ©CODEF corp.
+	 * Desc : connectedId濡� �벑濡앸맂 怨꾩젙 紐⑸줉 議고쉶
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:34:37 PM
 	 * @param serviceType
@@ -335,8 +336,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : 클라이언트 정보로 등록된 모든 connectedId 목록 조회
-	 * @Company : ©CODEF corp.
+	 * Desc : �겢�씪�씠�뼵�듃 �젙蹂대줈 �벑濡앸맂 紐⑤뱺 connectedId 紐⑸줉 議고쉶
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:34:44 PM
 	 * @param serviceType
@@ -350,8 +351,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : 토큰 반환 요청 - 보유 중인 유효한 토큰이 있는 경우 반환, 없는 경우 신규 발급 후 반환
-	 * @Company : ©CODEF corp.
+	 * Desc : �넗�겙 諛섑솚 �슂泥� - 蹂댁쑀 以묒씤 �쑀�슚�븳 �넗�겙�씠 �엳�뒗 寃쎌슦 諛섑솚, �뾾�뒗 寃쎌슦 �떊洹� 諛쒓툒 �썑 諛섑솚
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:35:03 PM
 	 * @param serviceType
@@ -375,18 +376,18 @@ public class EasyCodef {
 			clientSecret = EasyCodefConstant.SANDBOX_CLIENT_SECRET;
 		}
 		
-		String accessToken = EasyCodefTokenMap.getToken(clientId); // 보유 중인 토큰이 있는 경우 반환
+		String accessToken = EasyCodefTokenMap.getToken(clientId); // 蹂댁쑀 以묒씤 �넗�겙�씠 �엳�뒗 寃쎌슦 諛섑솚
 		if(accessToken != null) {
 			HashMap<String, Object> tokenMap = EasyCodefUtil.getTokenMap(accessToken);
-			if(EasyCodefUtil.checkValidity((int)(tokenMap.get("exp")))) {	// 토큰의 유효 기간 확인
-				return accessToken;	// 정상 토큰인 경우 반환
+			if(EasyCodefUtil.checkValidity((int)(tokenMap.get("exp")))) {	// �넗�겙�쓽 �쑀�슚 湲곌컙 �솗�씤
+				return accessToken;	// �젙�긽 �넗�겙�씤 寃쎌슦 諛섑솚
 			}
 		}
 		
-		HashMap<String, Object> tokenMap = EasyCodefConnector.publishToken(clientId, clientSecret);	// 보유 중인 토큰이 없거나 신규 발급 조건에 해당하는 경우 발급 후 반환(만료일시를 지났거나 한시간 이내로 도래한 경우 신규 발급)
+		HashMap<String, Object> tokenMap = EasyCodefConnector.publishToken(clientId, clientSecret);	// 蹂댁쑀 以묒씤 �넗�겙�씠 �뾾嫄곕굹 �떊洹� 諛쒓툒 議곌굔�뿉 �빐�떦�븯�뒗 寃쎌슦 諛쒓툒 �썑 諛섑솚(留뚮즺�씪�떆瑜� 吏��궗嫄곕굹 �븳�떆媛� �씠�궡濡� �룄�옒�븳 寃쎌슦 �떊洹� 諛쒓툒)
 		if(tokenMap != null) {
 			accessToken = (String)tokenMap.get("access_token");
-			EasyCodefTokenMap.setToken(clientId, accessToken);	// 발급 토큰 저장
+			EasyCodefTokenMap.setToken(clientId, accessToken);	// 諛쒓툒 �넗�겙 ���옣
 			return accessToken;
 		} else {
 			return null;
@@ -394,8 +395,8 @@ public class EasyCodef {
 	}
 	
 	/**
-	 * Desc : 토큰 신규 발급 후 반환(코드에프 이용 중 추가 업무 사용을 하는 등 토큰 권한 변경이 필요하거나 신규 토큰이 필요한 경우시 사용)
-	 * @Company : ©CODEF corp.
+	 * Desc : �넗�겙 �떊洹� 諛쒓툒 �썑 諛섑솚(肄붾뱶�뿉�봽 �씠�슜 以� 異붽� �뾽臾� �궗�슜�쓣 �븯�뒗 �벑 �넗�겙 沅뚰븳 蹂�寃쎌씠 �븘�슂�븯嫄곕굹 �떊洹� �넗�겙�씠 �븘�슂�븳 寃쎌슦�떆 �궗�슜)
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Sep 16, 2020 11:58:32 AM
 	 * @param serviceType
@@ -420,10 +421,10 @@ public class EasyCodef {
 		}
 		
 		String accessToken = null;
-		HashMap<String, Object> tokenMap = EasyCodefConnector.publishToken(clientId, clientSecret);	// 토큰 신규 발급
+		HashMap<String, Object> tokenMap = EasyCodefConnector.publishToken(clientId, clientSecret);	// �넗�겙 �떊洹� 諛쒓툒
 		if(tokenMap != null) {
 			accessToken = (String)tokenMap.get("access_token");
-			EasyCodefTokenMap.setToken(clientId, accessToken);	// 발급 토큰 저장
+			EasyCodefTokenMap.setToken(clientId, accessToken);	// 諛쒓툒 �넗�겙 ���옣
 			return accessToken;
 		} else {
 			return null;

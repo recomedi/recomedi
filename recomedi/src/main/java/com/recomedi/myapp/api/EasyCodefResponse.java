@@ -10,8 +10,8 @@ import java.util.List;
  *   |_ EasyCodefResponse.java
  * </pre>
  * 
- * Desc : 코드에프 응답 결과 클래스
- * @Company : ©CODEF corp.
+ * Desc : 肄붾뱶�뿉�봽 �쓳�떟 寃곌낵 �겢�옒�뒪
+ * @Company : 짤CODEF corp.
  * @Author  : notfound404@codef.io
  * @Date    : Jun 26, 2020 3:38:30 PM
  */
@@ -23,8 +23,8 @@ public class EasyCodefResponse extends HashMap<String, Object>{
 	private Object data;
 	
 	/**
-	 * Desc : EasyCodefResponse 생성자
-	 * @Company : ©CODEF corp.
+	 * Desc : EasyCodefResponse �깮�꽦�옄
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:38:37 PM
 	 */
@@ -39,8 +39,8 @@ public class EasyCodefResponse extends HashMap<String, Object>{
 	}
 	
 	/**
-	 * Desc : EasyCodefResponse 생성자
-	 * @Company : ©CODEF corp.
+	 * Desc : EasyCodefResponse �깮�꽦�옄
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:39:55 PM
 	 * @param map
@@ -50,10 +50,10 @@ public class EasyCodefResponse extends HashMap<String, Object>{
 		Iterator<String> iter = map.keySet().iterator();
 		while(iter.hasNext()) {
 			String key = iter.next();
-			if(EasyCodefConstant.RESULT.equals(key)) {	// 결과 코드 정보
+			if(EasyCodefConstant.RESULT.equals(key)) {	// 寃곌낵 肄붾뱶 �젙蹂�
 				result = (HashMap<String, Object>) map.get(EasyCodefConstant.RESULT);
 				this.put(EasyCodefConstant.RESULT, result);
-			} else if(EasyCodefConstant.RESULT.equals(key)) { //결과 데이터 정보
+			} else if(EasyCodefConstant.RESULT.equals(key)) { //寃곌낵 �뜲�씠�꽣 �젙蹂�
 				try {
 					data = (HashMap<String, Object>) map.get(EasyCodefConstant.DATA);
 				} catch (ClassCastException e) {
@@ -61,7 +61,7 @@ public class EasyCodefResponse extends HashMap<String, Object>{
 				}
 				this.put(EasyCodefConstant.DATA, data);
 			}else {
-				this.put(key, map.get(key));	// 사용자 정의 파라미터가 존재하는 경우 응답부에 추가 설정
+				this.put(key, map.get(key));	// �궗�슜�옄 �젙�쓽 �뙆�씪誘명꽣媛� 議댁옱�븯�뒗 寃쎌슦 �쓳�떟遺��뿉 異붽� �꽕�젙
 			}
 		}
 		
@@ -69,8 +69,8 @@ public class EasyCodefResponse extends HashMap<String, Object>{
 	}
 	
 	/**
-	 * Desc : EasyCodefResponse 생성자
-	 * @Company : ©CODEF corp.
+	 * Desc : EasyCodefResponse �깮�꽦�옄
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:40:00 PM
 	 * @param message
@@ -86,8 +86,8 @@ public class EasyCodefResponse extends HashMap<String, Object>{
 	}
 	
 	/**
-	 * Desc : EasyCodefResponse 생성자
-	 * @Company : ©CODEF corp.
+	 * Desc : EasyCodefResponse �깮�꽦�옄
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:40:06 PM
 	 * @param message
@@ -105,8 +105,8 @@ public class EasyCodefResponse extends HashMap<String, Object>{
 
 	
 	/**
-	 * Desc : 요청 수행 결과 코드 설정 
-	 * @Company : ©CODEF corp.
+	 * Desc : �슂泥� �닔�뻾 寃곌낵 肄붾뱶 �꽕�젙 
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:40:12 PM
 	 * @param errCode
@@ -120,8 +120,8 @@ public class EasyCodefResponse extends HashMap<String, Object>{
 	}
 	
 	/**
-	 * Desc : 요청 수행 결과 코드 설정 
-	 * @Company : ©CODEF corp.
+	 * Desc : �슂泥� �닔�뻾 寃곌낵 肄붾뱶 �꽕�젙 
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:40:18 PM
 	 * @param message
@@ -136,7 +136,7 @@ public class EasyCodefResponse extends HashMap<String, Object>{
 
 	/**
 	 * Desc : Override toString 
-	 * @Company : ©CODEF corp.
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:40:26 PM
 	 * @return

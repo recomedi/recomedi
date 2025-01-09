@@ -1,3 +1,4 @@
+
 @charset "UTF-8";
 @import "./font.css";
 
@@ -6,12 +7,14 @@
 body { line-height: 1.5; width: 1100px; margin: 0 auto; font-family: "NotoSanseKR", "맑은 고딕"; background: #EBEBEB; 
 	font-size: 14px; padding: 20px 0; min-height: 100vh; flex-direction: column; justify-content: space-between; }
 a { text-decoration: none; color: inherit; }
+/* select { cursor: pointer; border-color: lightgray; height: 20px; width: 70px; }
+textarea { border-color: lightgray; padding: 0 5px; } */
 ul { list-style: none; }
 img { vertical-align: middle; }
-section { padding: 30px; border-radius: 20px; }
+section, .section { padding: 30px; border-radius: 20px; }
 button { border: none; cursor: pointer; background: transparent; }
 button:focus-visible { outline: none; }
-input { border: 1px solid #D9D9D9; padding: 6px 10px; font-family: "NotoSanseKR", "맑은 고딕"; }
+input { border: 1px solid #D9D9D9; border-radius: 10px; padding: 6px 10px; font-family: "NotoSanseKR", "맑은 고딕"; }
 input:focus-visible { outline: none; }
 .main { background: #003366; min-height: 780px; }
 .wrapper { flex: 1 1 auto; }
@@ -184,5 +187,26 @@ table th, table td { padding: 5px 10px; }
 .prescription .summary span { padding: 10px; }
 .prescription .summary .title { background: rgba(236,217,176,.8); }
 .prescription .summary .text { flex: 1 1 auto; }
-
 .prescription .summary~.listTable2 { border-top: 2px solid #000; margin: 0; }
+
+
+/* 전체 의약품 조회 */
+.medicineAll { flex-wrap: wrap; justify-content: space-between; }
+.medicineAll .medicineItem { width: 31%; font-size: 18px; margin-bottom: 3%; }
+.medicineAll .medicineItem ul { list-style: circle; padding-left: 20px; }
+.medicineAll .title { font-size: 22px; margin-bottom: 20px; }
+.medicineAll .btn { font-size: 14px; }
+
+
+/* 로그인 */
+.member { width: 720px; margin: 0 auto; padding: 0 0 30px 0; }
+.member .bg { width: 100%; }
+.member .title { font-size: 30px; padding: 20px; }
+.member form { width: 400px; margin: 0 auto;  }
+.member label { font-size: 20px; margin: 10px 0 5px; }
+.member input, .member .btn { width: 100%; }
+.member .btn { margin-bottom: 10px; font-size: 18px; }
+
+.join #id { width: calc(100% - 95px); }
+.join form .flex { justify-content: space-between; }
+.join #id~.btn { width: 85px; margin: 0; font-size: 16px; }

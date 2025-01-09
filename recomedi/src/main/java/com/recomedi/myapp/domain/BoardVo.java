@@ -12,7 +12,7 @@ public class BoardVo {
 	private String ip;
 	private String delyn;
 	private String boardcode;
-	private String confirmation;
+	private String state = "0";
 	
 	public int getBidx() {
 		return bidx;
@@ -74,10 +74,10 @@ public class BoardVo {
 	public void setBoardcode(String boardcode) {
 		this.boardcode = boardcode;
 	}
-	public String getConfirmation() {
-		return confirmation;
+	public String getState() {
+		return state;
 	}
-	public void setConfirmation(String confirmation) {
-		this.confirmation = confirmation;
+	public void setState(String state) {
+		this.state = state;
 	}
 }

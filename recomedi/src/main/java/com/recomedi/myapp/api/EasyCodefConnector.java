@@ -23,8 +23,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *   |_ EasyCodefConnector.java
  * </pre>
  * 
- * Desc : CODEF 엑세스 토큰 및 상품 조회를 위한 HTTP 요청 클래스
- * @Company : ©CODEF corp.
+ * Desc : CODEF �뿊�꽭�뒪 �넗�겙 諛� �긽�뭹 議고쉶瑜� �쐞�븳 HTTP �슂泥� �겢�옒�뒪
+ * @Company : 짤CODEF corp.
  * @Author  : notfound404@codef.io
  * @Date    : Jun 26, 2020 3:35:17 PM
  */
@@ -33,8 +33,8 @@ public class EasyCodefConnector {
 	private static final int REPEAT_COUNT = 3;
 	
 	/**
-	 * Desc : CODEF 상품 조회 요청
-	 * @Company : ©CODEF corp.
+	 * Desc : CODEF �긽�뭹 議고쉶 �슂泥�
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:35:26 PM
 	 * @param urlPath
@@ -46,7 +46,7 @@ public class EasyCodefConnector {
 	 */
 	@SuppressWarnings("unchecked")
 	protected static EasyCodefResponse execute(String urlPath, int serviceType, HashMap<String, Object> bodyMap, EasyCodefProperties properties) throws InterruptedException {
-		/**	#1.토큰 체크	*/
+		/**	#1.�넗�겙 泥댄겕	*/
 		String domain;
 		String clientId;
 		String clientSecret;
@@ -65,9 +65,9 @@ public class EasyCodefConnector {
 			clientSecret = EasyCodefConstant.SANDBOX_CLIENT_SECRET;
 		}
 		
-		String accessToken = getToken(clientId, clientSecret); // 토큰 반환
+		String accessToken = getToken(clientId, clientSecret); // �넗�겙 諛섑솚
 		
-		/**	#2.요청 파라미터 인코딩	*/
+		/**	#2.�슂泥� �뙆�씪誘명꽣 �씤肄붾뵫	*/
 		String bodyString;
 		try {
 			bodyString = mapper.writeValueAsString(bodyMap);
@@ -80,25 +80,25 @@ public class EasyCodefConnector {
 			return response;
 		}
 		
-		/**	#3.상품 조회 요청	*/
+		/**	#3.�긽�뭹 議고쉶 �슂泥�	*/
 		HashMap<String, Object> responseMap = requestProduct(domain + urlPath, accessToken, bodyString);
-		if(EasyCodefConstant.INVALID_TOKEN.equals(responseMap.get("error")) || "CF-00401".equals(((HashMap<String, Object>)responseMap.get(EasyCodefConstant.RESULT)).get(EasyCodefConstant.CODE))){	// 액세스 토큰 유효기간 만료되었을 경우 토큰 재발급 후 상품 조회 요청 진행
-			EasyCodefTokenMap.setToken(clientId, null);		// 토큰 정보 초기화
-			accessToken = getToken(clientId, clientSecret); // 토큰 설정
+		if(EasyCodefConstant.INVALID_TOKEN.equals(responseMap.get("error")) || "CF-00401".equals(((HashMap<String, Object>)responseMap.get(EasyCodefConstant.RESULT)).get(EasyCodefConstant.CODE))){	// �븸�꽭�뒪 �넗�겙 �쑀�슚湲곌컙 留뚮즺�릺�뿀�쓣 寃쎌슦 �넗�겙 �옱諛쒓툒 �썑 �긽�뭹 議고쉶 �슂泥� 吏꾪뻾
+			EasyCodefTokenMap.setToken(clientId, null);		// �넗�겙 �젙蹂� 珥덇린�솕
+			accessToken = getToken(clientId, clientSecret); // �넗�겙 �꽕�젙
 			responseMap = requestProduct(domain + urlPath, accessToken, bodyString);
-		} else if (EasyCodefConstant.ACCESS_DENIED.equals(responseMap.get("error")) || "CF-00403".equals(((HashMap<String, Object>)responseMap.get(EasyCodefConstant.RESULT)).get(EasyCodefConstant.CODE))) {	// 접근 권한이 없는 경우 - 오류코드 반환
+		} else if (EasyCodefConstant.ACCESS_DENIED.equals(responseMap.get("error")) || "CF-00403".equals(((HashMap<String, Object>)responseMap.get(EasyCodefConstant.RESULT)).get(EasyCodefConstant.CODE))) {	// �젒洹� 沅뚰븳�씠 �뾾�뒗 寃쎌슦 - �삤瑜섏퐫�뱶 諛섑솚
 			EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.UNAUTHORIZED, EasyCodefConstant.ACCESS_DENIED); 
 			return response;
 		}
 		
-		/**	#4.상품 조회 결과 반환	*/
+		/**	#4.�긽�뭹 議고쉶 寃곌낵 諛섑솚	*/
 		EasyCodefResponse response = new EasyCodefResponse(responseMap); 
 		return response;
 	}
 	
 	/**
-	 * Desc : CODEF HTTP POST 요청
-	 * @Company : ©CODEF corp.
+	 * Desc : CODEF HTTP POST �슂泥�
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:35:34 PM
 	 * @param urlPath
@@ -106,82 +106,74 @@ public class EasyCodefConnector {
 	 * @param bodyString
 	 * @return
 	 */
+	private static HashMap<String, Object> requestProduct(String urlPath, String token, String bodyString) {
+		BufferedReader br = null;
+		try {
+			// HTTP �슂泥��쓣 �쐞�븳 URL �삤釉뚯젥�듃 �깮�꽦
+			URL url = new URL(urlPath);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setDoOutput(true);
+			con.setRequestMethod("POST");
+			con.setRequestProperty("Accept", "application/json");
 
-	    // 기존 requestProduct 메서드 (private 유지)
-	    private static HashMap<String, Object> requestProduct(String urlPath, String token, String bodyString) {
-	        BufferedReader br = null;
-	        try {
-	            // HTTP 요청을 위한 URL 오브젝트 생성
-	            URL url = new URL(urlPath);
-	            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-	            con.setDoOutput(true);
-	            con.setRequestMethod("POST");
-	            con.setRequestProperty("Accept", "application/json");
+			if (token != null && !"".equals(token)) {
+				con.setRequestProperty("Authorization", "Bearer " + token);		// �뿊�꽭�뒪 �넗�겙 �뿤�뜑 �꽕�젙
+			}
 
-	            if (token != null && !"".equals(token)) {
-	                con.setRequestProperty("Authorization", "Bearer " + token); // 엑세스 토큰 헤더 설정
-	            }
+			// 由ы�섏뒪�듃 諛붾뵒 �쟾�넚
+			OutputStream os = con.getOutputStream();
+			if (bodyString != null && !"".equals(bodyString)) {
+				os.write(bodyString.getBytes());
+			}
+			os.flush();
+			os.close();
 
-	            // 리퀘스트 바디 전송
-	            OutputStream os = con.getOutputStream();
-	            if (bodyString != null && !"".equals(bodyString)) {
-	                os.write(bodyString.getBytes());
-	            }
-	            os.flush();
-	            os.close();
-
-	            // 응답 코드 확인
-	            int responseCode = con.getResponseCode();
-	            if (responseCode == HttpURLConnection.HTTP_OK) {
-	                br = new BufferedReader(new InputStreamReader(con.getInputStream())); 
-	            } else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
-	                EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.BAD_REQUEST, urlPath); 
-	                return response;
-	            } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-	                EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.UNAUTHORIZED, urlPath); 
-	                return response; 
-	            } else if (responseCode == HttpURLConnection.HTTP_FORBIDDEN) {
-	                EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.FORBIDDEN, urlPath); 
-	                return response; 
-	            } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-	                EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.NOT_FOUND, urlPath); 
-	                return response; 
-	            } else {
-	                EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.SERVER_ERROR, urlPath); 
-	                return response;
-	            }
-
-	            // 응답 바디 read
-	            String inputLine;
-	            StringBuffer responseStr = new StringBuffer();
-	            while ((inputLine = br.readLine()) != null) {
-	                responseStr.append(inputLine);
-	            }
-	            br.close();
-
-	            // 결과 반환
-	            return mapper.readValue(URLDecoder.decode(responseStr.toString(), "UTF-8"), new TypeReference<HashMap<String, Object>>() {});
-	        } catch (Exception e) {
-	            EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.LIBRARY_SENDER_ERROR, e.getMessage()); 
-	            return response;
-	        } finally {
-	            if (br != null) {
-	                try {
-	                    br.close();
-	                } catch (IOException e) {}
-	            }
-	        }
-	    }
-
-	    // Getter 메서드 추가
-	    public static HashMap<String, Object> getRequestProduct(String urlPath, String token, String bodyString) {
-	        return requestProduct(urlPath, token, bodyString);
-	    }
-
+			// �쓳�떟 肄붾뱶 �솗�씤
+			int responseCode = con.getResponseCode();
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				br = new BufferedReader(new InputStreamReader(con.getInputStream())); 
+			} else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
+				EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.BAD_REQUEST, urlPath); 
+				return response;
+			} else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+				EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.UNAUTHORIZED, urlPath); 
+				return response; 
+			} else if (responseCode == HttpURLConnection.HTTP_FORBIDDEN) {
+				EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.FORBIDDEN, urlPath); 
+				return response; 
+			} else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+				EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.NOT_FOUND, urlPath); 
+				return response; 
+			} else {
+				EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.SERVER_ERROR, urlPath); 
+				return response;
+			}
+			
+			// �쓳�떟 諛붾뵒 read
+			String inputLine;
+			StringBuffer responseStr = new StringBuffer();
+			while ((inputLine = br.readLine()) != null) {
+				responseStr.append(inputLine);
+			}
+			br.close();
+			
+			// 寃곌낵 諛섑솚
+			return mapper.readValue(URLDecoder.decode(responseStr.toString(), "UTF-8"), new TypeReference<HashMap<String, Object>>(){});	
+		} catch (Exception e) {
+			EasyCodefResponse response = new EasyCodefResponse(EasyCodefMessageConstant.LIBRARY_SENDER_ERROR, e.getMessage()); 
+			return response;
+		} finally {
+			if(br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {}
+			}
+		}
+	}
 	
 	/**
-	 * Desc : 엑세스 토큰 반환
-	 * @Company : ©CODEF corp.
+	 * Desc : �뿊�꽭�뒪 �넗�겙 諛섑솚
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:35:47 PM
 	 * @param clientId
@@ -192,17 +184,17 @@ public class EasyCodefConnector {
 	private static String getToken(String clientId, String clientSecret) throws InterruptedException {
 		int i = 0;
 		String accessToken = EasyCodefTokenMap.getToken(clientId);
-		if(accessToken == null || "".equals(accessToken) || !checkToken(accessToken)) { //만료 조건 추가
-			while(i < REPEAT_COUNT) {	// 토큰 발급 요청은 최대 3회까지 재시도
-				HashMap<String, Object> tokenMap = publishToken(clientId, clientSecret);	// 토큰 발급 요청
+		if(accessToken == null || "".equals(accessToken) || !checkToken(accessToken)) { //留뚮즺 議곌굔 異붽�
+			while(i < REPEAT_COUNT) {	// �넗�겙 諛쒓툒 �슂泥��� 理쒕� 3�쉶源뚯� �옱�떆�룄
+				HashMap<String, Object> tokenMap = publishToken(clientId, clientSecret);	// �넗�겙 諛쒓툒 �슂泥�
 				if(tokenMap != null) {
 					String newToken = (String)tokenMap.get("access_token");
-					EasyCodefTokenMap.setToken(clientId, newToken);	// 토큰 저장
+					EasyCodefTokenMap.setToken(clientId, newToken);	// �넗�겙 ���옣
 					accessToken = newToken;
 				}
 				
 				if(accessToken != null || !"".equals(accessToken)) {
-					break;	// 정상 발급시 반복문 종료
+					break;	// �젙�긽 諛쒓툒�떆 諛섎났臾� 醫낅즺
 				}
 				
 				Thread.sleep(20);
@@ -214,8 +206,8 @@ public class EasyCodefConnector {
 	}
 	
 	/**
-	 * Desc : CODEF 엑세스 토큰 발급 요청
-	 * @Company : ©CODEF corp.
+	 * Desc : CODEF �뿊�꽭�뒪 �넗�겙 諛쒓툒 �슂泥�
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:36:01 PM
 	 * @param clientId
@@ -225,15 +217,15 @@ public class EasyCodefConnector {
 	protected static HashMap<String, Object> publishToken(String clientId, String clientSecret) {
 		BufferedReader br = null;
 		try {
-			// HTTP 요청을 위한 URL 오브젝트 생성
+			// HTTP �슂泥��쓣 �쐞�븳 URL �삤釉뚯젥�듃 �깮�꽦
 			URL url = new URL(EasyCodefConstant.OAUTH_DOMAIN + EasyCodefConstant.GET_TOKEN);
-			String params = "grant_type=client_credentials&scope=read";	// Oauth2.0 사용자 자격증명 방식(client_credentials) 토큰 요청 설정
+			String params = "grant_type=client_credentials&scope=read";	// Oauth2.0 �궗�슜�옄 �옄寃⑹쬆紐� 諛⑹떇(client_credentials) �넗�겙 �슂泥� �꽕�젙
 			
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			
-			// 클라이언트아이디, 시크릿코드 Base64 인코딩
+			// �겢�씪�씠�뼵�듃�븘�씠�뵒, �떆�겕由우퐫�뱶 Base64 �씤肄붾뵫
 			String auth = clientId + ":" + clientSecret;
 			byte[] authEncBytes = Base64.encodeBase64(auth.getBytes());
 			String authStringEnc = new String(authEncBytes);
@@ -243,21 +235,21 @@ public class EasyCodefConnector {
 			con.setDoInput(true);
 			con.setDoOutput(true);
 			
-			// 리퀘스트 바디 전송
+			// 由ы�섏뒪�듃 諛붾뵒 �쟾�넚
 			OutputStream os = con.getOutputStream();
 			os.write(params.getBytes());
 			os.flush();
 			os.close();
 	
-			// 응답 코드 확인
+			// �쓳�떟 肄붾뱶 �솗�씤
 			int responseCode = con.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) {	// 정상 응답
+			if (responseCode == HttpURLConnection.HTTP_OK) {	// �젙�긽 �쓳�떟
 				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			} else {	 // 에러 발생
+			} else {	 // �뿉�윭 諛쒖깮
 				return null;
 			}
 			
-			// 응답 바디 read
+			// �쓳�떟 諛붾뵒 read
 			String inputLine;
 			StringBuffer responseStr = new StringBuffer();
 			while ((inputLine = br.readLine()) != null) {
@@ -279,7 +271,7 @@ public class EasyCodefConnector {
 	}
 
 	/**
-	 * 토큰 유효기간 확인
+	 * �넗�겙 �쑀�슚湲곌컙 �솗�씤
 	 * @param accessToken
 	 * @return
 	 */
@@ -288,10 +280,10 @@ public class EasyCodefConnector {
         try {
             tokenMap = EasyCodefUtil.getTokenMap(accessToken);
         } catch (IOException e) {
-            // 확인 중 오류 발생 시
+            // �솗�씤 以� �삤瑜� 諛쒖깮 �떆
             return false;
         }
-        // 토큰의 유효 기간 확인
+        // �넗�겙�쓽 �쑀�슚 湲곌컙 �솗�씤
         return EasyCodefUtil.checkValidity((int) (tokenMap.get("exp")));
     }
 }

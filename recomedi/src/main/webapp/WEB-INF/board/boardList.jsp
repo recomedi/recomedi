@@ -41,7 +41,7 @@
    
     <!-- 검색영역 -->
     <c:choose>
-    <c:when test="${sessionScope.adminyn == 'Y' || requestScope.boardcode == 'free'}">
+    <c:when test="${sessionScope.admin == 'Y' || requestScope.boardcode == 'free'}">
     <div class="d-flex justify-content-between">
     <a href="${pageContext.request.contextPath}/board/${requestScope.boardcode}/${requestScope.period}/boardWrite.do" class="btn btn-outline-primary">글쓰기</a>
     </c:when>
@@ -55,7 +55,7 @@
           <option value="contents">내용</option>
         </select>
         <div class="d-flex col-9">
-          <input class="form-control me-2 w-auto search" type="search" name="keyword" placeholder="검색어를 입력해주세요." value="">
+          <input class="form-control me-2 w-auto search" type="search" name="title" placeholder="검색어를 입력해주세요." value="">
           <button class="btn btn-secondary" type="submit">검색</button>
         </div>
       </form>
@@ -94,7 +94,7 @@
       </table>
       
 	  <!-- 페이징 -->
-      <c:set var="queryParam" value="keyword=${requestScope.pm.scri.keyword}&searchType=${requestScope.pm.scri.searchType}"></c:set>
+      <c:set var="queryParam" value="title=${requestScope.pm.scri.title}&searchType=${requestScope.pm.scri.searchType}"></c:set>
       <ul class="pagination mt-5 justify-content-center">
         <c:if test="${requestScope.pm.prev == true}">
         <li class="page-item">

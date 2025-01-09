@@ -3,7 +3,7 @@ package com.recomedi.myapp.domain;
 public class SearchCriteria extends Criteria {
 	
 	private String searchType;
-	private String keyword;
+	private String title;
 	
 	public String getSearchType() {
 		return searchType;
@@ -11,11 +11,12 @@ public class SearchCriteria extends Criteria {
 	public void setSearchType(String searchType) {
 		this.searchType = searchType;
 	}
-	public String getKeyword() {
-		return keyword;
+	public String getTitle() {
+		return title;
 	}
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
+	public void setTitle(String title) {
+		this.title = title;
 	}
-
+	
+	
 }

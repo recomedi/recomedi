@@ -29,16 +29,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *   |_ EasyCodefUtil.java
  * </pre>
  * 
- * Desc : 쉬운 코드에프 유틸 클래스
- * @Company : ©CODEF corp.
+ * Desc : �돩�슫 肄붾뱶�뿉�봽 �쑀�떥 �겢�옒�뒪
+ * @Company : 짤CODEF corp.
  * @Author  : notfound404@codef.io
  * @Date    : Jun 26, 2020 3:41:39 PM
  */
 public class EasyCodefUtil {
 
 	/**
-	 * Desc : RSA암호화
-	 * @Company : ©CODEF corp.
+	 * Desc : RSA�븫�샇�솕
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:41:50 PM
 	 * @param plainText
@@ -65,8 +65,8 @@ public class EasyCodefUtil {
 	}
 	
 	/**
-	 * Desc : byte배열로 추출한 파일 정보를 BASE64 문자열로 인코딩
-	 * @Company : ©CODEF corp.
+	 * Desc : byte諛곗뿴濡� 異붿텧�븳 �뙆�씪 �젙蹂대�� BASE64 臾몄옄�뿴濡� �씤肄붾뵫
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:41:58 PM
 	 * @param filePath
@@ -83,7 +83,7 @@ public class EasyCodefUtil {
 	}
 	
 	/**
-	 * 토큰 맵 변환
+	 * �넗�겙 留� 蹂��솚
 	 * 
 	 * @param request
 	 * @return
@@ -94,17 +94,17 @@ public class EasyCodefUtil {
 	@SuppressWarnings("unchecked")
 	public static HashMap<String, Object> getTokenMap(String token) throws JsonParseException, JsonMappingException, IOException {
 
-		/** 클라이언트 식별 값, 요청 식별 값 추출을 위한 디코드 */
+		/** �겢�씪�씠�뼵�듃 �떇蹂� 媛�, �슂泥� �떇蹂� 媛� 異붿텧�쓣 �쐞�븳 �뵒肄붾뱶 */
 		String[] split_string = token.split("\\.");
 		String base64EncodedBody = split_string[1];
 		String tokenBody = new String(Base64.getDecoder().decode(base64EncodedBody));
 
-		/** 맵 변환 */
+		/** 留� 蹂��솚 */
 		return new ObjectMapper().readValue(tokenBody, HashMap.class);
 	}
 	
 	/**
-	 * Comment  : 요청 토큰 정합성 체크
+	 * Comment  : �슂泥� �넗�겙 �젙�빀�꽦 泥댄겕
 	 * @version : 1.0.1
 	 * @tags    : @param headerMap
 	 * @tags    : @return
@@ -112,9 +112,9 @@ public class EasyCodefUtil {
 	 */
 	public static boolean checkValidity(int expInt) {
 		long now = new Date().getTime();
-		String expStr = expInt + "000";	// 현재 시간 타임스탬프와 자리수 맞추기(13자리)
+		String expStr = expInt + "000";	// �쁽�옱 �떆媛� ���엫�뒪�꺃�봽�� �옄由ъ닔 留욎텛湲�(13�옄由�)
 		long exp  = Long.parseLong(expStr);
-		if(now > exp || (exp - now < 3600000)) { // 유효기간 확인::유효기간이 지났거나 한시간 이내로 만료되는 경우
+		if(now > exp || (exp - now < 3600000)) { // �쑀�슚湲곌컙 �솗�씤::�쑀�슚湲곌컙�씠 吏��궗嫄곕굹 �븳�떆媛� �씠�궡濡� 留뚮즺�릺�뒗 寃쎌슦
 			return false;
 		}
 		

@@ -1,42 +1,43 @@
 package com.recomedi.myapp.api;
+
 /**
  * <pre>
  * io.codef.easycodef
  *   |_ EasyCodefProperties.java
  * </pre>
  * 
- * Desc : 코드에프의 쉬운 사용을 위한 프로퍼티 클래스 
- * @Company : ©CODEF corp.
+ * Desc : 肄붾뱶�뿉�봽�쓽 �돩�슫 �궗�슜�쓣 �쐞�븳 �봽濡쒗띁�떚 �겢�옒�뒪 
+ * @Company : 짤CODEF corp.
  * @Author  : notfound404@codef.io
  * @Date    : Jun 26, 2020 3:36:51 PM
  */
 public class EasyCodefProperties {
 	
-	//	데모 엑세스 토큰 발급을 위한 클라이언트 아이디
+	//	�뜲紐� �뿊�꽭�뒪 �넗�겙 諛쒓툒�쓣 �쐞�븳 �겢�씪�씠�뼵�듃 �븘�씠�뵒
 	private String demoClientId 	= "";
 	
-	//	데모 엑세스 토큰 발급을 위한 클라이언트 시크릿
+	//	�뜲紐� �뿊�꽭�뒪 �넗�겙 諛쒓툒�쓣 �쐞�븳 �겢�씪�씠�뼵�듃 �떆�겕由�
 	private String demoClientSecret 	= "";	
 	
-	//	OAUTH2.0 데모 토큰
+	//	OAUTH2.0 �뜲紐� �넗�겙
 	private String demoAccessToken = "";
 	
-	//	정식 엑세스 토큰 발급을 위한 클라이언트 아이디
+	//	�젙�떇 �뿊�꽭�뒪 �넗�겙 諛쒓툒�쓣 �쐞�븳 �겢�씪�씠�뼵�듃 �븘�씠�뵒
 	private String clientId 	= "";
 	
-	//	정식 엑세스 토큰 발급을 위한 클라이언트 시크릿
+	//	�젙�떇 �뿊�꽭�뒪 �넗�겙 諛쒓툒�쓣 �쐞�븳 �겢�씪�씠�뼵�듃 �떆�겕由�
 	private String clientSecret 	= "";	
 	
-	//	OAUTH2.0 토큰
+	//	OAUTH2.0 �넗�겙
 	private String accessToken = "";
 	
-	//	RSA암호화를 위한 퍼블릭키
+	//	RSA�븫�샇�솕瑜� �쐞�븳 �띁釉붾┃�궎
 	private String publicKey 	= "";
 
 	
 	/**
-	 * Desc : 정식서버 사용을 위한 클라이언트 정보 설정
-	 * @Company : ©CODEF corp.
+	 * Desc : �젙�떇�꽌踰� �궗�슜�쓣 �쐞�븳 �겢�씪�씠�뼵�듃 �젙蹂� �꽕�젙
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:37:02 PM
 	 * @param clientId
@@ -48,8 +49,8 @@ public class EasyCodefProperties {
 	}
 	
 	/**
-	 * Desc : 데모서버 사용을 위한 클라이언트 정보 설정
-	 * @Company : ©CODEF corp.
+	 * Desc : �뜲紐⑥꽌踰� �궗�슜�쓣 �쐞�븳 �겢�씪�씠�뼵�듃 �젙蹂� �꽕�젙
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:37:10 PM
 	 * @param demoClientId
@@ -61,8 +62,8 @@ public class EasyCodefProperties {
 	}
 	
 	/**
-	 * Desc : 데모 클라이언트 아이디 반환
-	 * @Company : ©CODEF corp.
+	 * Desc : �뜲紐� �겢�씪�씠�뼵�듃 �븘�씠�뵒 諛섑솚
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:37:17 PM
 	 * @return
@@ -72,8 +73,8 @@ public class EasyCodefProperties {
 	}
 
 	/**
-	 * Desc : 데모 클라이언트 시크릿 반환
-	 * @Company : ©CODEF corp.
+	 * Desc : �뜲紐� �겢�씪�씠�뼵�듃 �떆�겕由� 諛섑솚
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:37:23 PM
 	 * @return
@@ -83,8 +84,8 @@ public class EasyCodefProperties {
 	}
 
 	/**
-	 * Desc : 데모 접속 토큰 반환
-	 * @Company : ©CODEF corp.
+	 * Desc : �뜲紐� �젒�냽 �넗�겙 諛섑솚
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:37:30 PM
 	 * @return
@@ -94,8 +95,8 @@ public class EasyCodefProperties {
 	}
 
 	/**
-	 * Desc : 데모 클라이언트 시크릿 반환
-	 * @Company : ©CODEF corp.
+	 * Desc : �뜲紐� �겢�씪�씠�뼵�듃 �떆�겕由� 諛섑솚
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:37:36 PM
 	 * @Version : 1.0.1
@@ -106,8 +107,8 @@ public class EasyCodefProperties {
 	}
 
 	/**
-	 * Desc : API 클라이언트 시크릿 반환
-	 * @Company : ©CODEF corp.
+	 * Desc : API �겢�씪�씠�뼵�듃 �떆�겕由� 諛섑솚
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:37:44 PM
 	 * @return
@@ -117,8 +118,8 @@ public class EasyCodefProperties {
 	}
 
 	/**
-	 * Desc : API 접속 토큰 반환
-	 * @Company : ©CODEF corp.
+	 * Desc : API �젒�냽 �넗�겙 諛섑솚
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:37:50 PM
 	 * @Version : 1.0.1
@@ -129,8 +130,8 @@ public class EasyCodefProperties {
 	}
 
 	/**
-	 * Desc : RSA암호화를 위한 퍼블릭키 반환
-	 * @Company : ©CODEF corp.
+	 * Desc : RSA�븫�샇�솕瑜� �쐞�븳 �띁釉붾┃�궎 諛섑솚
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:37:59 PM
 	 * @return
@@ -140,8 +141,8 @@ public class EasyCodefProperties {
 	}
 
 	/**
-	 * Desc : RSA암호화를 위한 퍼블릭키 설정
-	 * @Company : ©CODEF corp.
+	 * Desc : RSA�븫�샇�솕瑜� �쐞�븳 �띁釉붾┃�궎 �꽕�젙
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:38:07 PM
 	 * @Version : 1.0.1
@@ -152,8 +153,8 @@ public class EasyCodefProperties {
 	}
 
 	/**
-	 * Desc : 데모 접속 토큰 설정
-	 * @Company : ©CODEF corp.
+	 * Desc : �뜲紐� �젒�냽 �넗�겙 �꽕�젙
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:38:14 PM
 	 * @param demoAccessToken
@@ -163,8 +164,8 @@ public class EasyCodefProperties {
 	}
 
 	/**
-	 * Desc : API 접속 토큰 설정
-	 * @Company : ©CODEF corp.
+	 * Desc : API �젒�냽 �넗�겙 �꽕�젙
+	 * @Company : 짤CODEF corp.
 	 * @Author  : notfound404@codef.io
 	 * @Date    : Jun 26, 2020 3:38:21 PM
 	 * @param accessToken
