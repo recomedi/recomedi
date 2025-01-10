@@ -14,6 +14,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +28,24 @@ import com.recomedi.myapp.api.EasyCodefConnector;
 import com.recomedi.myapp.api.EasyCodefToken;
 import com.recomedi.myapp.domain.DrugVo;
 import com.recomedi.myapp.domain.PrescriptionVo;
+import com.recomedi.myapp.service.PrescriptionService;
 
 @Controller
 @RequestMapping(value = "/medicine/")
 public class PrescriptionController {
+	
+	
+	 // CODEF API 관련 상수
+    private static final String CLIENT_ID = "fbbcf915-2395-4dfe-9316-a5ce610fab1a";
+    private static final String CLIENT_SECRET = "2b152335-b63a-4596-bf34-5b44f79b41b0";
+    private static final String API_URL = "https://development.codef.io/v1/kr/public/hw/hira-list/my-medicine";
+
+    private final PrescriptionService prescriptionService;
+
+    @Autowired
+    public PrescriptionController(PrescriptionService prescriptionService) {
+        this.prescriptionService = prescriptionService;
+    }
 	
 	 private HashMap<String, Object> requestData = new HashMap<>();
 	private static final org.slf4j.Logger logger = LoggerFactory.getLogger(PrescriptionController.class);
@@ -50,52 +65,7 @@ public class PrescriptionController {
 	    return true;
 	}
 	
-	
-	@RequestMapping(value = "/saveDecodedImage", method = RequestMethod.POST)
-	@ResponseBody
-	public String saveDecodedImage(@RequestParam("base64Image") String base64Image) {
-	    try {
-	        // Base64 디코딩
-	        byte[] decodedBytes = Base64.getDecoder().decode(base64Image);
 
-	        // PNG 헤더 검증
-	        byte[] pngHeader = new byte[] {(byte) 0x89, 'P', 'N', 'G', (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A};
-	        for (int i = 0; i < pngHeader.length; i++) {
-	            if (decodedBytes[i] != pngHeader[i]) {
-	                throw new IllegalArgumentException("유효하지 않은 PNG 파일입니다.");
-	            }
-	        }
-
-	        // 저장 경로 설정
-	        String uploadDirPath = "src/main/webapp/resources/decoded_images";
-	        File uploadDir = new File(uploadDirPath);
-
-	        // 디렉토리가 없으면 생성
-	        if (!uploadDir.exists()) {
-	            boolean created = uploadDir.mkdirs();
-	            if (!created) {
-	                throw new IOException("디렉토리를 생성할 수 없습니다: " + uploadDirPath);
-	            }
-	        }
-
-	        // 파일 저장
-	        String fileName = "decoded_image.png";
-	        File outputFile = new File(uploadDir, fileName);
-	        try (FileOutputStream fos = new FileOutputStream(outputFile)) {
-	            fos.write(decodedBytes);
-	            System.out.println("[DEBUG] 파일 저장 완료: " + outputFile.getAbsolutePath());
-	        }
-
-	        return "파일이 성공적으로 저장되었습니다: " + outputFile.getAbsolutePath();
-
-	    } catch (IllegalArgumentException e) {
-	        System.err.println("[ERROR] " + e.getMessage());
-	        return "유효하지 않은 PNG 데이터입니다.";
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	        return "파일 저장 중 오류가 발생했습니다.";
-	    }
-	}
 
 	
 	
@@ -172,34 +142,33 @@ public class PrescriptionController {
 	}
 
 	
-	public HashMap<String, Object> callCodefApi(String accessToken, HashMap<String, Object> requestData) {
-	    HashMap<String, Object> response = new HashMap<>();
-	    try {
-	        EasyCodefConnector connector = new EasyCodefConnector();
-	        ObjectMapper objectMapper = new ObjectMapper();
+	private HashMap<String, Object> callCodefApi(String accessToken, HashMap<String, Object> requestData) {
+        HashMap<String, Object> response = new HashMap<>();
+        try {
+            EasyCodefConnector connector = new EasyCodefConnector();
+            ObjectMapper objectMapper = new ObjectMapper();
 
-	        // CODEF API 호출
-	        HashMap<String, Object> apiResponse = connector.getRequestProduct(
-	                "https://development.codef.io/v1/kr/public/hw/hira-list/my-medicine",
-	                accessToken,
-	                objectMapper.writeValueAsString(requestData)
-	        );
+            // CODEF API 호출
+            HashMap<String, Object> apiResponse = connector.getRequestProduct(
+                    API_URL,
+                    accessToken,
+                    objectMapper.writeValueAsString(requestData)
+            );
 
-	        System.out.println("[DEBUG] CODEF 응답 데이터: " + apiResponse);
+            logger.info("[DEBUG] CODEF 응답 데이터: {}", apiResponse);
 
-	        // 응답 처리
-	        if (apiResponse.containsKey("data")) {
-	            HashMap<String, Object> data = (HashMap<String, Object>) apiResponse.get("data");
-	            response.putAll(data);
-	        } else {
-	            response.put("error", "API 응답에 데이터가 없습니다.");
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        response.put("error", "CODEF API 호출 중 오류 발생: " + e.getMessage());
-	    }
-	    return response;
-	}
+            // 응답 처리
+            if (apiResponse.containsKey("data")) {
+                response.putAll((HashMap<String, Object>) apiResponse.get("data"));
+            } else {
+                response.put("error", "API 응답에 데이터가 없습니다.");
+            }
+        } catch (Exception e) {
+            logger.error("CODEF API 호출 중 오류 발생: {}", e.getMessage());
+            response.put("error", "CODEF API 호출 중 오류 발생: " + e.getMessage());
+        }
+        return response;
+    }
 
 	
 	
@@ -598,49 +567,6 @@ public class PrescriptionController {
 
 	    return response;
 	}
-
-
-
-
-
-
-
-	
-	
-	@RequestMapping(value = "/decodeSecureNo", method = RequestMethod.POST, produces = "image/png")
-	@ResponseBody
-	public byte[] decodeSecureNo(@RequestParam("base64Image") String base64Image) {
-	    try {
-	        // 입력 데이터 검증
-	        if (base64Image == null || base64Image.isEmpty()) {
-	            throw new IllegalArgumentException("Base64 이미지 데이터가 비어 있습니다.");
-	        }
-
-	        // Base64 디코딩
-	        byte[] decodedBytes = Base64.getDecoder().decode(base64Image);
-
-	        // PNG 헤더 검증
-	        byte[] pngHeader = new byte[] {(byte) 0x89, 'P', 'N', 'G', (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A};
-	        for (int i = 0; i < pngHeader.length; i++) {
-	            if (decodedBytes[i] != pngHeader[i]) {
-	                throw new IllegalArgumentException("유효하지 않은 PNG 파일입니다.");
-	            }
-	        }
-
-	        // 디코딩된 데이터 반환
-	        return decodedBytes;
-
-	    } catch (IllegalArgumentException e) {
-	        System.err.println("[ERROR] " + e.getMessage());
-	        return null; // 클라이언트에 적절한 오류 메시지를 반환하도록 수정 가능
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return null;
-	    }
-	}
-
-	
-	
 	
 	@RequestMapping(value = "prescriptionList.do", method = RequestMethod.GET)
 	public String prescriptionList(HttpSession session, Model model) {
@@ -653,108 +579,22 @@ public class PrescriptionController {
 	}
 
 
+
 	
 	@RequestMapping(value = "prescriptionDetail.do", method = RequestMethod.GET)
-	public String prescriptionDetail(@RequestParam("id") int id, HttpSession session, Model model) {
+	public String prescriptionDetail(@RequestParam("pidx") int pidx, HttpSession session, Model model) {
+	    System.out.println("[DEBUG] pidx: " + pidx); // 디버깅 로그
+
 	    List<PrescriptionVo> prescriptions = (List<PrescriptionVo>) session.getAttribute("finalResultData");
-	    if (prescriptions == null || id >= prescriptions.size()) {
+	    if (prescriptions == null || pidx >= prescriptions.size()) {
+	        System.err.println("[ERROR] 잘못된 처방 ID입니다.");
 	        return "redirect:/medicine/prescriptionList.do"; // 잘못된 ID일 경우 목록으로 리다이렉트
 	    }
-	    PrescriptionVo selectedPrescription = prescriptions.get(id);
+
+	    PrescriptionVo selectedPrescription = prescriptions.get(pidx);
 	    model.addAttribute("prescription", selectedPrescription); // 선택된 처방 데이터를 모델에 추가
+
 	    return "WEB-INF/medicine/prescriptionDetail";
 	}
-
-
 	
 }
-
-
-
-
-// 기존코드
-
-//@RequestMapping(value = "processCertification.do", method = RequestMethod.POST)
-//public String processCertification(
-//        @RequestParam("idNumberFront") String idNumberFront,
-//        @RequestParam("idNumberBack") String idNumberBack,
-//        @RequestParam("name") String name,
-//        @RequestParam("phonePrefix") String phonePrefix,
-//        @RequestParam("phoneNumber") String phoneNumber,
-//        @RequestParam("telecom") String telecom,
-//        HttpSession session) throws JsonProcessingException {
-//	
-//	try {
-//        // 입력 데이터 확인
-//        System.out.println("입력 데이터:");
-//        System.out.println("주민번호 앞자리: " + idNumberFront);
-//        System.out.println("주민번호 뒷자리: " + idNumberBack);
-//        System.out.println("이름: " + name);
-//        System.out.println("휴대폰 번호: " + phonePrefix + phoneNumber);
-//
-//        // CODEF API 호출 로직 실행...
-//    } catch (Exception e) {
-//        System.err.println("예외 발생:");
-//        e.printStackTrace();
-//    }
-//
-//
-//    // 주민등록번호 및 휴대폰 번호 합치기
-//    String fullIdNumber = idNumberFront + idNumberBack; 
-//    String fullPhoneNumber = phonePrefix + phoneNumber;
-//
-//    // CODEF 요청 데이터 구성
-//    HashMap<String, Object> requestData = new HashMap<>();
-//    requestData.put("organization", "0020");
-//    requestData.put("loginType", "2");
-//    requestData.put("identity", fullIdNumber);
-//    requestData.put("loginTypeLevel", "1");
-//    requestData.put("userName", name);
-//    requestData.put("telecom", telecom);
-//    requestData.put("phoneNo", fullPhoneNumber);
-//    requestData.put("authMethod", "0"); // SMS 인증
-//
-//    // CODEF API 호출 준비
-//    EasyCodefToken tokenService = new EasyCodefToken();
-//    String clientId = "fbbcf915-2395-4dfe-9316-a5ce610fab1a"; 
-//    String clientSecret = "2b152335-b63a-4596-bf34-5b44f79b41b0"; 
-//    
-//    String accessToken = tokenService.getAccessToken(clientId, clientSecret);
-//    
-//    if (accessToken.isEmpty()) {
-//        System.out.println("토큰 발급 실패");
-//        return "WEB-INF/medicine/error";
-//    }
-//
-//    // API 호출
-//    EasyCodefConnector connector = new EasyCodefConnector();
-//    ObjectMapper objectMapper = new ObjectMapper();
-//    
-//    String requestBody = objectMapper.writeValueAsString(requestData);
-//
-//    HashMap<String, Object> response = connector.getRequestProduct(
-//        "https://development.codef.io/v1/kr/public/hw/hira-list/my-medicine",
-//        accessToken,
-//        requestBody
-//    );
-//
-//    System.out.println("CODEF 응답 데이터: " + response);
-//
-//    // 보안문자 처리
-//    if (response.containsKey("data")) {
-//        HashMap<String, Object> data = (HashMap<String, Object>) response.get("data");
-//        if (data != null && data.containsKey("reqSecureNo") && data.get("reqSecureNo") != null) {
-//            session.setAttribute("secureNoImage", data.get("reqSecureNo")); // 보안문자 이미지 저장
-//            session.setAttribute("jobIndex", data.get("jobIndex"));
-//            session.setAttribute("threadIndex", data.get("threadIndex"));
-//            session.setAttribute("jti", data.get("jti"));
-//            session.setAttribute("twoWayTimestamp", data.get("twoWayTimestamp"));
-//            return "WEB-INF/medicine/secureInput"; // 보안문자 입력 페이지로 이동
-//        }
-//    }
-//
-//    // 추가 인증이 필요하지 않은 경우
-//    session.setAttribute("response", response);
-//    
-//    return "WEB-INF/medicine/additionalCertification";
-//}
