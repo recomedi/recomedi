@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ import com.recomedi.myapp.domain.MedicineVo;
 import com.recomedi.myapp.domain.PageMaker;
 import com.recomedi.myapp.domain.SearchCriteria;
 import com.recomedi.myapp.service.MedicineService;
+import com.recomedi.myapp.service.ScrapService;
 import com.recomedi.myapp.util.MedicineInfo;
 
 @Controller
@@ -31,6 +34,9 @@ public class MedicineController {
 
 	@Autowired
 	private MedicineService medicineService;
+
+	@Autowired
+	private ScrapService scrapService;
 	
 	@Autowired(required = false)
 	private PageMaker pm;
@@ -150,6 +156,7 @@ public class MedicineController {
 	@RequestMapping(value="{itemSeq}/medicineContents.do")
 	public String medicineContents(
 			@PathVariable("itemSeq") String itemSeq,
+			HttpServletRequest request,
 			Model model) throws IOException {
 		
 		logger.info("medicineContents들어옴");
@@ -192,6 +199,7 @@ public class MedicineController {
 
             mdv.setItemName(itemName);
             mdv.setEntpName(entpName);
+            mdv.setItemSeq(itemSeq);
             mdv.setEfcyQesitm(efcyQesitm);
             mdv.setUseMethodQesitm(useMethodQesitm);
             mdv.setAtpnWarnQesitm(atpnWarnQesitm);
@@ -201,8 +209,23 @@ public class MedicineController {
             mdv.setDepositMethodQesitm(depositMethodQesitm);
         }
         
-	    // jsp로 Vo 보내기
+	    
+		// session에서 midx 가져오기
+		String midx = request.getSession().getAttribute("midx").toString();
+		int midx_int = Integer.parseInt(midx);
+		
+	    // 의약제품코드와 midx로 sidx 찾기
+		Integer sidx = scrapService.findSidx(itemSeq, midx_int, "N");
+		
+	    // jsp로 결과값 보내기
 	    model.addAttribute("mdv", mdv);
+	    model.addAttribute("sidx", sidx);
+	    
+	    if(sidx == null) {
+		    model.addAttribute("result", 0);
+	    } else {
+		    model.addAttribute("result", 1);
+	    }
 	    
 	    return "WEB-INF/medicine/medicineContents";
 	}
