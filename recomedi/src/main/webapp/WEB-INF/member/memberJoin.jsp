@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 	<%@ include file="/WEB-INF/header.jsp" %>
-  <script src="https://code.jquery.com/jquery-latest.min.js"></script>  <!-- CDN주소 -->
 
   <script>
   

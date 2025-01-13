@@ -15,10 +15,20 @@
 	
  	<div class="wrapper">
 		<section class="shadow detailContents relative">
-			<div class="scrap absolute">
-				<img src="${pageContext.request.contextPath}/resources/images/scrap_blank.png" alt="미스크랩">
-				<%-- <img src="${pageContext.request.contextPath}/resources/images/scrap.png" alt="스크랩"> --%>
-			</div>
+			<form name="frm">
+				<input type="hidden" value="${requestScope.mdv.efcyQesitm}" class="efcyQesitm">
+				<input type="hidden" value="${requestScope.sidx}" class="sidx" name="checkArr">
+				<button type="button" id="scrapBtn" class="scrap absolute">
+				<c:choose>
+					<c:when test="${requestScope.result == 0}">
+						<img src="${pageContext.request.contextPath}/resources/images/scrap_blank.png" class="scrapImg" alt="미스크랩">
+					</c:when>
+					<c:otherwise>
+						<img src="${pageContext.request.contextPath}/resources/images/scrap.png" class="scrapImg" alt="스크랩">
+					</c:otherwise>
+				</c:choose>
+				</button>
+			</form>
 			<h2 class="contentTitle center shadow regular">${requestScope.mdv.itemName} - ${requestScope.mdv.entpName}</h2>
 			<div class="content shadow">
 				<p>1. 효능</p>
@@ -42,5 +52,84 @@
 			<button type="button" class="btn" onclick="history.back();">목록가기</button>
 		</div>
 	</div>
+	
+	<script>	
+	// 스크랩 관리
+	const scrapBtn = document.querySelector("#scrapBtn");
+	
+	function scrap() {
+
+		const scrapImg = document.querySelector(".scrapImg");
+		
+		if(scrapImg.alt == "미스크랩") {
+	 		let ans = confirm("스크랩을 등록 하시겠습니까?");
+	 		
+	 		if (ans == true) {
+				
+	 			const itemSeq = "${requestScope.mdv.itemSeq}";
+	 			const efcyQesitm = document.querySelector(".efcyQesitm").value;
+	 			const itemName = "${requestScope.mdv.itemName}";
+	 			
+				$.ajax({
+					type: "get",
+					url: "${pageContext.request.contextPath}/scrap/scrapInsertAction.do",
+					dataType: "json",
+					data: {"itemSeq": itemSeq, "efcyQesitm": efcyQesitm, "itemName": itemName},
+					success: function(result) {
+						alert("등록이 완료되었습니다.");
+						scrapImg.src = "${pageContext.request.contextPath}/resources/images/scrap.png";
+						scrapImg.alt = "스크랩";
+						document.querySelector(".sidx").value = result.sidx;
+					},
+					error: function(xhr, status, error) {
+						alert("전송실패");
+					}
+				});
+			}
+	 		
+		} else {
+			
+			let ans = confirm("스크랩을 삭제 하시겠습니까?");
+	 		
+			if (ans == true) {
+				
+				const chekedArry = [];
+				chekedArry.push(document.querySelector(".sidx").value);
+				
+				const checkArr = chekedArry.join(",");
+				
+				$.ajax({
+					type: "get",
+					url: "${pageContext.request.contextPath}/scrap/scrapDeleteAction.do",
+					dataType: "json",
+					data: {"checkArr": checkArr},
+					success: function(result) {
+						alert("삭제가 완료되었습니다.");
+						scrapImg.src = "${pageContext.request.contextPath}/resources/images/scrap_blank.png";
+						scrapImg.alt = "미스크랩";
+					},
+					error: function(xhr, status, error) {
+						alert("전송실패");
+					}
+				});
+			}
+			
+	 		/* let ans = confirm("스크랩을 삭제 하시겠습니까?");
+	 		
+			if (ans == true) {
+						
+				const fm = document.frm;
+				
+				fm.action="${pageContext.request.contextPath}/scrap/" + "${requestScope.mdv.itemSeq}" + "/scrapDeleteAction.do";
+				fm.method="get";
+				fm.submit();
+			} */
+		}
+		
+		return;		
+	}
+	
+	scrapBtn.addEventListener("click", scrap);
+	</script>
         
     <%@ include file="/WEB-INF/footer.jsp" %>

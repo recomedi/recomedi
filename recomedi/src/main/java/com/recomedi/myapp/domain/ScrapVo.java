@@ -4,7 +4,9 @@ public class ScrapVo {
 		
 	public int sidx;
 	public int midx;
-	public int medidx;
+	public String itemSeq;
+	public String efcyQesitm;
+	public String itemName;
 	public String date;
 	public String modify;
 	public String ip;
@@ -22,11 +24,11 @@ public class ScrapVo {
 	public void setMidx(int midx) {
 		this.midx = midx;
 	}
-	public int getMedidx() {
-		return medidx;
+	public String getItemSeq() {
+		return itemSeq;
 	}
-	public void setMedidx(int medidx) {
-		this.medidx = medidx;
+	public void setItemSeq(String itemSeq) {
+		this.itemSeq = itemSeq;
 	}
 	public String getDate() {
 		return date;
@@ -51,6 +53,18 @@ public class ScrapVo {
 	}
 	public void setDelyn(String delyn) {
 		this.delyn = delyn;
+	}
+	public String getEfcyQesitm() {
+		return efcyQesitm;
+	}
+	public void setEfcyQesitm(String efcyQesitm) {
+		this.efcyQesitm = efcyQesitm;
+	}
+	public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
 	
 }

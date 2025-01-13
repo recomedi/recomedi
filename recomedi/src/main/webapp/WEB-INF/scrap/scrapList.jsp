@@ -103,12 +103,45 @@
 	function scrapDelete() {
 
 		const chekedScrap = document.querySelectorAll(".check:checked");
+		const allScrap = document.querySelectorAll(".check");
 		
 		if(chekedScrap.length > 0) {
 			
 	 		let ans = confirm("삭제하시겠습니까?");
 	 		
-			if (ans == true) {
+	 		if (ans == true) {
+	 			
+				const checkArrInput = document.querySelector(".checkArrInput");
+				const chekedArry = [];
+				
+				for(let i = 0; i < chekedScrap.length; i++) {
+					chekedArry.push(chekedScrap[i].value);
+				}
+				
+				const checkArr = chekedArry.join(",");
+				
+				let page = "";
+				if(chekedScrap.length == allScrap.length) {
+					page = "${requestScope.pm.scri.page - 1}";
+				} else {
+					page = "${requestScope.pm.scri.page}";
+				}
+				
+				$.ajax({
+					type: "get",
+					url: "${pageContext.request.contextPath}/scrap/scrapDeleteAction.do",
+					dataType: "json",
+					data: {"checkArr": checkArr},
+					success: function(result) {
+						alert("삭제가 완료되었습니다.");
+						location.href = path = "${pageContext.request.contextPath}/scrap/scrapList.do?page=" + page + "&keyword=${requestScope.pm.scri.keyword}&searchType=${requestScope.pm.scri.searchType}";
+					},
+					error: function(xhr, status, error) {
+						alert("전송실패");
+					}
+				});
+	 		
+			/* 
 				
 				const fm = document.frm;				
 				const checkArrInput = document.querySelector(".checkArrInput");
@@ -123,6 +156,8 @@
 				fm.action="${pageContext.request.contextPath}/scrap/scrapDeleteAction.do";
 				fm.method="get";
 				fm.submit();
+		 	*/
+		 	
 			}
 			
 			return;
@@ -154,7 +189,7 @@
 	}
 	
 	checkAllBtn.addEventListener("click", checkAll);
-	
+		
 	</script>
         
     <%@ include file="/WEB-INF/footer.jsp" %>
