@@ -567,6 +567,10 @@ public class PrescriptionController {
 
 	    return response;
 	}
+
+
+	
+	
 	
 	@RequestMapping(value = "prescriptionList.do", method = RequestMethod.GET)
 	public String prescriptionList(HttpSession session, Model model) {
@@ -582,19 +586,18 @@ public class PrescriptionController {
 
 	
 	@RequestMapping(value = "prescriptionDetail.do", method = RequestMethod.GET)
-	public String prescriptionDetail(@RequestParam("pidx") int pidx, HttpSession session, Model model) {
-	    System.out.println("[DEBUG] pidx: " + pidx); // 디버깅 로그
-
+	public String prescriptionDetail(@RequestParam("id") int id, HttpSession session, Model model) {
 	    List<PrescriptionVo> prescriptions = (List<PrescriptionVo>) session.getAttribute("finalResultData");
-	    if (prescriptions == null || pidx >= prescriptions.size()) {
-	        System.err.println("[ERROR] 잘못된 처방 ID입니다.");
+	    if (prescriptions == null || id >= prescriptions.size()) {
 	        return "redirect:/medicine/prescriptionList.do"; // 잘못된 ID일 경우 목록으로 리다이렉트
 	    }
-
-	    PrescriptionVo selectedPrescription = prescriptions.get(pidx);
+	    PrescriptionVo selectedPrescription = prescriptions.get(id);
 	    model.addAttribute("prescription", selectedPrescription); // 선택된 처방 데이터를 모델에 추가
-
 	    return "WEB-INF/medicine/prescriptionDetail";
 	}
+
+
+
+
 	
 }
