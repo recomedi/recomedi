@@ -26,7 +26,7 @@
 				<li><a href="${pageContext.request.contextPath}/member/memberJoin.do"><img src="${pageContext.request.contextPath}/resources/images/join.png" alt="회원가입">회원가입</a></li>
 				</c:if>
 				
-				<li><a href="${pageContext.request.contextPath}/medicine/medicineList.do"><img src="${pageContext.request.contextPath}/resources/images/medicine.png" alt="전체의약품">전체의약품조회</a></li>
+				<li><a href="${pageContext.request.contextPath}/medicine/medicineHashTag.do"><img src="${pageContext.request.contextPath}/resources/images/medicine.png" alt="전체의약품">전체의약품조회</a></li>
 				
 				<c:if test="${!empty sessionScope.midx}">
 				<li><a href="${pageContext.request.contextPath}/member/memberMypage.do"><img src="${pageContext.request.contextPath}/resources/images/editProfile.png" alt="정보수정">정보수정</a></li>
@@ -45,11 +45,3 @@
 		</nav>
 		<button class="close absolute"><img src="${pageContext.request.contextPath}/resources/images/menuClose.svg" alt="menuClose"></button>
 	</div>
-	
-	<header class="relative center" id="hd">
-		<a href="${pageContext.request.contextPath}/" class="logo"><img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo"></a>
-		<div class="absolute menu flex">
-			<a href="#" class="relative alarm confirmation"><img src="${pageContext.request.contextPath}/resources/images/alarm.png" alt="alarm"></a>
-			<button class="btnMenu flex"><p class="first"></p><p class="second"></p><p class="third"></p></button>
-		</div>
-	</header>

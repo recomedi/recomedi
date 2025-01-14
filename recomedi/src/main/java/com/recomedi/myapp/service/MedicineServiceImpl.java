@@ -95,6 +95,14 @@ public class MedicineServiceImpl implements MedicineService {
 		return mdv;
 	}
 
+	@Override
+	public List<MedicineVo> medicineHashTagMore(String hashTag) {
+
+		List<MedicineVo> hmlist = mdm.medicineHashTag(hashTag);
+		
+		return hmlist;
+	}
+
     
 }
  

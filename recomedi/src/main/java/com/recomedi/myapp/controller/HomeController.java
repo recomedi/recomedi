@@ -21,7 +21,7 @@ public class HomeController {
 	@RequestMapping(value = "/main.do")
 	public String mainPage(Model model) {
 		
-		logger.info("main들어");
+		logger.info("main들어옴");
         
         // CodefToken ���
 //		        HttpURLConnection con = (HttpURLConnection) url.openConnection();

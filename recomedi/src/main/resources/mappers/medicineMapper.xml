@@ -5,10 +5,10 @@
 <mapper namespace="com.recomedi.myapp.persistance.MedicineMapper">
 	
 	<sql id="search">
-		<if test="searchType != null and SearchType.equals('effect')">
+		<if test="searchType != null and SearchType.equals('efcyQesitm')">
 			and effect like concat('%',#{keyword},'%')
 		</if>
-		<if test="searchType != null and SearchType.equals('medicineName')">
+		<if test="searchType != null and SearchType.equals('itemName')">
 			and medicineName like concat('%',#{keyword},'%')
 		</if>
 	</sql>
@@ -29,7 +29,7 @@
 	</select>
 	
 	<select id="medicineHashTag" parameterType="String" resultType="mdv">
-		select itemName, entpName from MEDICINE where delyn='N' and efcyQesitm like concat ('%',#{hashTag},'%')
+		select itemName, entpName,itemSeq from MEDICINE where delyn='N' and efcyQesitm like concat ('%',#{hashTag},'%')
 	</select>
 	
 </mapper>

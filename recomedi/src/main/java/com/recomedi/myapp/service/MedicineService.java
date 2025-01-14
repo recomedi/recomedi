@@ -14,5 +14,6 @@ public interface MedicineService {
     public MedicineVo medicineSelectOne(int medidx);
     public ArrayList<MedicineVo> medicineSelectAll(SearchCriteria scri);
     public List<MedicineVo> medicineHashTag(String hashTag);
+    public List<MedicineVo> medicineHashTagMore(String hashTag);
 }
 
