@@ -45,11 +45,3 @@
 		</nav>
 		<button class="close absolute"><img src="${pageContext.request.contextPath}/resources/images/menuClose.svg" alt="menuClose"></button>
 	</div>
-	
-	<header class="relative center" id="hd">
-		<a href="${pageContext.request.contextPath}/" class="logo"><img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo"></a>
-		<div class="absolute menu flex">
-			<a href="#" class="relative alarm confirmation"><img src="${pageContext.request.contextPath}/resources/images/alarm.png" alt="alarm"></a>
-			<button class="btnMenu flex"><p class="first"></p><p class="second"></p><p class="third"></p></button>
-		</div>
-	</header>

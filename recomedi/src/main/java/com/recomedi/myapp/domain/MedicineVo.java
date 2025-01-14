@@ -9,6 +9,12 @@ public class MedicineVo {
 	private String ip;
 	private String delyn;
 	private String efcyQesitm;
+	private String useMethodQesitm;
+	private String atpnWarnQesitm;
+	private String atpnQesitm;
+	private String intrcQesitm;
+	private String seQesitm;
+	private String depositMethodQesitm;	
 	private String itemSeq;
 	
 	public int getMedidx() {
@@ -58,6 +64,42 @@ public class MedicineVo {
 	}
 	public void setItemSeq(String itemSeq) {
 		this.itemSeq = itemSeq;
+	}
+	public String getUseMethodQesitm() {
+		return useMethodQesitm;
+	}
+	public void setUseMethodQesitm(String useMethodQesitm) {
+		this.useMethodQesitm = useMethodQesitm;
+	}
+	public String getAtpnWarnQesitm() {
+		return atpnWarnQesitm;
+	}
+	public void setAtpnWarnQesitm(String atpnWarnQesitm) {
+		this.atpnWarnQesitm = atpnWarnQesitm;
+	}
+	public String getAtpnQesitm() {
+		return atpnQesitm;
+	}
+	public void setAtpnQesitm(String atpnQesitm) {
+		this.atpnQesitm = atpnQesitm;
+	}
+	public String getIntrcQesitm() {
+		return intrcQesitm;
+	}
+	public void setIntrcQesitm(String intrcQesitm) {
+		this.intrcQesitm = intrcQesitm;
+	}
+	public String getSeQesitm() {
+		return seQesitm;
+	}
+	public void setSeQesitm(String seQesitm) {
+		this.seQesitm = seQesitm;
+	}
+	public String getDepositMethodQesitm() {
+		return depositMethodQesitm;
+	}
+	public void setDepositMethodQesitm(String depositMethodQesitm) {
+		this.depositMethodQesitm = depositMethodQesitm;
 	}
 	
 }

@@ -2,19 +2,22 @@ package com.recomedi.myapp.domain;
 
 public class PrescriptionVo {
 		
-	public int sidx;
+	public int pidx;
 	public int midx;
-	public int bidx;
+	public String resMenufactureDate;
+	public String resPrescribeOrg;
+	public String resTelNo;
+	public String commBrandName;
+	public String commTelNo;
 	public String date;
-	public String modify;
 	public String ip;
 	public String delyn;
 	
-	public int getSidx() {
-		return sidx;
+	public int getPidx() {
+		return pidx;
 	}
-	public void setSidx(int sidx) {
-		this.sidx = sidx;
+	public void setPidx(int pidx) {
+		this.pidx = pidx;
 	}
 	public int getMidx() {
 		return midx;
@@ -22,23 +25,41 @@ public class PrescriptionVo {
 	public void setMidx(int midx) {
 		this.midx = midx;
 	}
-	public int getBidx() {
-		return bidx;
+	public String getResMenufactureDate() {
+		return resMenufactureDate;
 	}
-	public void setBidx(int bidx) {
-		this.bidx = bidx;
+	public void setResMenufactureDate(String resMenufactureDate) {
+		this.resMenufactureDate = resMenufactureDate;
+	}
+	public String getResPrescribeOrg() {
+		return resPrescribeOrg;
+	}
+	public void setResPrescribeOrg(String resPrescribeOrg) {
+		this.resPrescribeOrg = resPrescribeOrg;
+	}
+	public String getResTelNo() {
+		return resTelNo;
+	}
+	public void setResTelNo(String resTelNo) {
+		this.resTelNo = resTelNo;
+	}
+	public String getCommBrandName() {
+		return commBrandName;
+	}
+	public void setCommBrandName(String commBrandName) {
+		this.commBrandName = commBrandName;
+	}
+	public String getCommTelNo() {
+		return commTelNo;
+	}
+	public void setCommTelNo(String commTelNo) {
+		this.commTelNo = commTelNo;
 	}
 	public String getDate() {
 		return date;
 	}
 	public void setDate(String date) {
 		this.date = date;
-	}
-	public String getModify() {
-		return modify;
-	}
-	public void setModify(String modify) {
-		this.modify = modify;
 	}
 	public String getIp() {
 		return ip;

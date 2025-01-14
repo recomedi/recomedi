@@ -3,12 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<%@ include file="header.jsp" %>
+<%@ include file="mainHeader.jsp" %>
 	<div class="wrapper flex">		
 		<form class="mainSarch flex">
 			<select class="select2" name="" id="">
-				<option value="">제품명</option>
-				<option value="">효능</option>
+				<option value="itemName">제품명</option>
+				<option value="efcyQesitm">효능</option>
 			</select>
 			<div class="relative">
 				<div class="flex">
@@ -37,13 +37,13 @@
 		</form>
 	</div>
 	
-<a href="${pageContext.request.contextPath}/prescription/certification.do" class="btn">본인인증페이지</a>
-<script>
-// select
-$(document).ready(function() {
-  $('.select2').select2 ({ 
-  	width : "120px"
-  })
-});
-</script>
-<%@ include file="footer.jsp" %>
+	<a href="${pageContext.request.contextPath}/prescription/certification.do" class="btn">본인인증페이지</a>
+	<script>
+	// select
+	$(document).ready(function() {
+	  $('.select2').select2 ({ 
+	  	width : "120px"
+	  })
+	});
+	</script>
+	<%@ include file="footer.jsp" %>
