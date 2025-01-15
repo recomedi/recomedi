@@ -4,12 +4,19 @@ public class SearchCriteria extends Criteria {
 	
 	private String searchType;
 	private String keyword;
+	private String hashTag;
 	
 	private String itemName;
 	private String efcyQesitm;
 	
 	public String getSearchType() {
 		return searchType;
+	}
+	public String getHashTag() {
+		return hashTag;
+	}
+	public void setHashTag(String hashTag) {
+		this.hashTag = hashTag;
 	}
 	public void setSearchType(String searchType) {
 		this.searchType = searchType;

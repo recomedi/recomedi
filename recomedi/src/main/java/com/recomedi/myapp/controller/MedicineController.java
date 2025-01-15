@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,11 +19,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.recomedi.myapp.domain.MedicineVo;
 import com.recomedi.myapp.domain.PageMaker;
 import com.recomedi.myapp.domain.SearchCriteria;
 import com.recomedi.myapp.service.MedicineService;
+import com.recomedi.myapp.service.MedicineServiceImpl;
 import com.recomedi.myapp.service.ScrapService;
 import com.recomedi.myapp.util.MedicineInfo;
 
@@ -41,26 +44,27 @@ public class MedicineController {
 	@Autowired(required = false)
 	private PageMaker pm;
 	
-	@RequestMapping(value="medicineList.do")
+
 	public String medicineList(
 			SearchCriteria scri,
 			Model model) throws IOException {
 
-		logger.info("medicineListµé¾î¿È");
+		logger.info("medicineListë“¤ì–´ì˜´");
 
 		pm.setScri(scri);
 		
-		// int¸¦ StringÀ¸·Î º¯È¯
+		// intë¥¼ Stringìœ¼ë¡œ ë³€í™˜
 		String pageNo = pm.getScri().getPage() + "";
 		String numOfRows = pm.getScri().getPerPageNum() + "";
 		String searchType = pm.getScri().getSearchType() + "";
 		String keyword = pm.getScri().getKeyword() + "";
 		
-		// API¿¡¼­ µ¥ÀÌÅÍ °¡Á®¿À±â
+
+		// APIì—ì„œ ë°ì´í„° ê°€ì ¸ì˜¤ê¸°
 		MedicineInfo medicineInfo = new MedicineInfo("list", pageNo, numOfRows, searchType, keyword);
 		String medicineInfoString = medicineInfo.getMedicineInfo();
 		
-		// JSON ÆÄ½Ì
+		// JSON íŒŒì‹±
         JSONObject jsonObject = new JSONObject(medicineInfoString);
         JSONObject body = jsonObject.getJSONObject("body");
 
@@ -69,7 +73,7 @@ public class MedicineController {
 		
 		if(totalCount > 0) {
 			
-	        // items ¹è¿­¿¡¼­ °ª ÃßÃâ ÈÄ Vo¿¡ ´ã±â
+	        // items ë°°ì—´ì—ì„œ ê°’ ì¶”ì¶œ í›„ Voì— ë‹´ê¸°
 	        JSONArray items = body.getJSONArray("items");
 
 			ArrayList<MedicineVo> mlist = new ArrayList<>();
@@ -91,7 +95,7 @@ public class MedicineController {
 	        model.addAttribute("keyword", keyword);
 	    }
         
-	    // jsp·Î Vo º¸³»±â 
+	    // jspë¡œ Vo ë³´ë‚´ê¸° 
 		model.addAttribute("pm", pm);
 	    
 	    return "WEB-INF/medicine/medicineList";
@@ -99,7 +103,7 @@ public class MedicineController {
 	
 //	@RequestMapping(value="medicineContents.do")		
 //  	public String medicineContents(@RequestParam("medidx") int medidx, Model model) {
-//		logger.info("medicinContents¿¡ µé¾î¿È");
+//		logger.info("medicinContentsì— ë“¤ì–´ì˜´");
 //		
 //		MedicineVo mdv = medicineService.medicineSelectOne(medidx);
 //		model.addAttribute("mdv",mdv);
@@ -112,23 +116,37 @@ public class MedicineController {
 	
 	@RequestMapping(value="medicineHashTag.do")
 	public String medicineHashTag(Model model) {
+	    // í•´ì‹œíƒœê·¸ ë¦¬ìŠ¤íŠ¸ ì •ì˜
+	    List<String> hashTags = Arrays.asList("ê°ê¸°", "ì†Œí™”", "í•´ì—´", "ì§„í†µ", "í”¼ë¶€", "ì†ì“°ë¦¼", "êµ¬ì¶©", "ë¶ˆë©´ì¦", "ìœ¡ì²´í”¼ë¡œ");
 
-	    // ÇØ½ÃÅÂ±× ¸®½ºÆ® Á¤ÀÇ
-	    List<String> hashTags = Arrays.asList("°¨±â", "¼ÒÈ­", "ÇØ¿­", "ÁøÅë", "ÇÇºÎ", "¼Ó¾²¸²", "±¸Ãæ", "ºÒ¸éÁõ", "À°Ã¼ÇÇ·Î");
-
-	    // ÇØ½ÃÅÂ±×º° °Ë»ö °á°ú¸¦ Map¿¡ ´ã±â
+	    // í•´ì‹œíƒœê·¸ë³„ ê²€ìƒ‰ ê²°ê³¼ë¥¼ Mapì— ë‹´ê¸°
 	    Map<String, List<MedicineVo>> mlist = new HashMap<>();
 	    for (String tag : hashTags) {
 	        List<MedicineVo> medicines = medicineService.medicineHashTag(tag);
 	        mlist.put(tag, medicines);
 	    }
+	    
 
-	    // ¸ğµ¨¿¡ µ¥ÀÌÅÍ Ãß°¡
+
+	    // ëª¨ë¸ì— ë°ì´í„° ì¶”ê°€
 	    model.addAttribute("mlist", mlist);
 	    
 	    return "WEB-INF/medicine/medicineHashTag";
 	}
 	
+	@RequestMapping(value = "medicineHashTagMore.do")
+	public String medicineHashTagMore(@RequestParam("hashTag") String hashTag, Model model) {
+		logger.info("hashTagMore");
+		List<MedicineVo> hmlist = medicineService.medicineHashTag(hashTag);
+		
+		model.addAttribute("hmlist", hmlist);
+		model.addAttribute("hashTag", hashTag);
+		logger.info("hashTagMore" + hashTag );
+		
+		String path ="WEB-INF/medicine/medicineList";
+		
+		return path;
+	}
 //    public void getMedicineData(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        String pageNo = request.getParameter("pageNo");
 //        String numOfRows = request.getParameter("numOfRows");
@@ -159,22 +177,22 @@ public class MedicineController {
 			HttpServletRequest request,
 			Model model) throws IOException {
 		
-		logger.info("medicineContentsµé¾î¿È");
+		logger.info("medicineContentsë“¤ì–´ì˜´");
 	
-		// API¿¡¼­ µ¥ÀÌÅÍ °¡Á®¿À±â
+		// APIì—ì„œ ë°ì´í„° ê°€ì ¸ì˜¤ê¸°
 //		MedicineInfo medicineInfo = new MedicineInfo();
 //		String medicineInfoString = medicineInfo.getMedicineInfo(itemSeq);
 		MedicineInfo medicineInfo = new MedicineInfo("contents", itemSeq);
 		String medicineInfoString = medicineInfo.getMedicineInfo();
 		
-		// JSON ÆÄ½Ì
+		// JSON íŒŒì‹±
         JSONObject jsonObject = new JSONObject(medicineInfoString);
         JSONObject body = jsonObject.getJSONObject("body");
         JSONArray items = body.getJSONArray("items");
 
         MedicineVo mdv = new MedicineVo();
         
-        // items ¹è¿­¿¡¼­ °ª ÃßÃâ ÈÄ Vo¿¡ ´ã±â
+        // items ë°°ì—´ì—ì„œ ê°’ ì¶”ì¶œ í›„ Voì— ë‹´ê¸°
         for (int i = 0; i < items.length(); i++) {
             JSONObject item = items.getJSONObject(i);
             String itemName = item.getString("itemName");
@@ -186,8 +204,7 @@ public class MedicineController {
 //            String intrcQesitm = item.getString("intrcQesitm");
 //            String seQesitm = item.getString("seQesitm");
 //            String depositMethodQesitm = item.getString("depositMethodQesitm");   
-            
-            // String efcyQesitm = item.optString("efcyQesitm", "N/A"); // null ¹æÁö
+            // String efcyQesitm = item.optString("efcyQesitm", "N/A"); // null ë°©ì§€
             
             String efcyQesitm = item.optString("efcyQesitm", "N/A");            
             String useMethodQesitm = item.optString("useMethodQesitm", "N/A");
@@ -209,15 +226,14 @@ public class MedicineController {
             mdv.setDepositMethodQesitm(depositMethodQesitm);
         }
         
-	    
-		// session¿¡¼­ midx °¡Á®¿À±â
+		// sessionì—ì„œ midx ê°€ì ¸ì˜¤ê¸°
 		String midx = request.getSession().getAttribute("midx").toString();
 		int midx_int = Integer.parseInt(midx);
 		
-	    // ÀÇ¾àÁ¦Ç°ÄÚµå¿Í midx·Î sidx Ã£±â
+	    // ì˜ì•½ì œí’ˆì½”ë“œì™€ midxë¡œ sidx ì°¾ê¸°
 		Integer sidx = scrapService.findSidx(itemSeq, midx_int, "N");
 		
-	    // jsp·Î °á°ú°ª º¸³»±â
+	    // jspë¡œ ê²°ê³¼ê°’ ë³´ë‚´ê¸°
 	    model.addAttribute("mdv", mdv);
 	    model.addAttribute("sidx", sidx);
 	    

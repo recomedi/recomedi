@@ -26,7 +26,7 @@
 				<li><a href="${pageContext.request.contextPath}/member/memberJoin.do"><img src="${pageContext.request.contextPath}/resources/images/join.png" alt="회원가입">회원가입</a></li>
 				</c:if>
 				
-				<li><a href="${pageContext.request.contextPath}/medicine/medicineList.do"><img src="${pageContext.request.contextPath}/resources/images/medicine.png" alt="전체의약품">전체의약품조회</a></li>
+				<li><a href="${pageContext.request.contextPath}/medicine/medicineHashTag.do"><img src="${pageContext.request.contextPath}/resources/images/medicine.png" alt="전체의약품">전체의약품조회</a></li>
 				
 				<c:if test="${!empty sessionScope.midx}">
 				<li><a href="${pageContext.request.contextPath}/member/memberMypage.do"><img src="${pageContext.request.contextPath}/resources/images/editProfile.png" alt="정보수정">정보수정</a></li>

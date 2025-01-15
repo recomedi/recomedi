@@ -1,3 +1,4 @@
+
 package com.recomedi.myapp.domain;
 
 public class MedicineVo {

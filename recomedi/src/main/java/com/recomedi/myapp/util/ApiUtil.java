@@ -38,7 +38,7 @@ public class ApiUtil {
     		}
     		rd.close();
     		conn.disconnect();
-    		return response.toString(); // API ¿¿¥‰ π›
+    		return response.toString(); // API √Ä√Ä¬¥√§ ¬π√ù
     		
     	} catch(Exception e) {
     		e.printStackTrace();

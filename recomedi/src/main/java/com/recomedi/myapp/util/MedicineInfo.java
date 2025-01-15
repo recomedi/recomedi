@@ -37,21 +37,21 @@ public class MedicineInfo {
         
 		if(type.equals("list")) {
 
-	        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode(pageNo, "UTF-8")); /*ÆäÀÌÁö¹øÈ£*/
-	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode(numOfRows, "UTF-8")); /*ÇÑ ÆäÀÌÁö °á°ú ¼ö*/ 
+	        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode(pageNo, "UTF-8")); /*í˜ì´ì§€ë²ˆí˜¸*/
+	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode(numOfRows, "UTF-8")); /*í•œ í˜ì´ì§€ ê²°ê³¼ ìˆ˜*/ 
 	        
 			if(searchType.equals("itemName")) {
-		        urlBuilder.append("&" + URLEncoder.encode("itemName","UTF-8") + "=" + URLEncoder.encode(keyword, "UTF-8")); /*Á¦Ç°¸í*/
+		        urlBuilder.append("&" + URLEncoder.encode("itemName","UTF-8") + "=" + URLEncoder.encode(keyword, "UTF-8")); /*ì œí’ˆëª…*/
 				
 			} else if (searchType.equals("efcyQesitm")) {
-				urlBuilder.append("&" + URLEncoder.encode("efcyQesitm","UTF-8") + "=" + URLEncoder.encode(keyword, "UTF-8")); /*ÀÌ ¾àÀÇ È¿´ÉÀº ¹«¾ùÀÔ´Ï±î?*/
+				urlBuilder.append("&" + URLEncoder.encode("efcyQesitm","UTF-8") + "=" + URLEncoder.encode(keyword, "UTF-8")); /*ì´ ì•½ì˜ íš¨ëŠ¥ì€ ë¬´ì—‡ì…ë‹ˆê¹Œ?*/
 			}
 		
 		} else if(type.equals("contents")) {
-	        urlBuilder.append("&" + URLEncoder.encode("itemSeq","UTF-8") + "=" + URLEncoder.encode(itemSeq, "UTF-8")); /*Ç°¸ñ±âÁØÄÚµå*/			
+	        urlBuilder.append("&" + URLEncoder.encode("itemSeq","UTF-8") + "=" + URLEncoder.encode(itemSeq, "UTF-8")); /*í’ˆëª©ê¸°ì¤€ì½”ë“œ*/			
 		}
 		
-        urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*ÀÀ´äµ¥ÀÌÅÍ Çü½Ä(xml/json) Default:xml*/
+        urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*ì‘ë‹µë°ì´í„° í˜•ì‹(xml/json) Default:xml*/
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
