@@ -1,4 +1,3 @@
-
 package com.recomedi.myapp.util;
 
 import java.io.InputStreamReader;
