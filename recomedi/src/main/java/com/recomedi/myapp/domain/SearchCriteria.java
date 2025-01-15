@@ -6,6 +6,9 @@ public class SearchCriteria extends Criteria {
 	private String keyword;
 	private String hashTag;
 	
+	private String itemName;
+	private String efcyQesitm;
+	
 	public String getSearchType() {
 		return searchType;
 	}
@@ -23,6 +26,19 @@ public class SearchCriteria extends Criteria {
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+	
+	public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+	public String getEfcyQesitm() {
+		return efcyQesitm;
+	}
+	public void setEfcyQesitm(String efcyQesitm) {
+		this.efcyQesitm = efcyQesitm;
 	}
 
 }

@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ include file ="/WEB-INF/slideBar.jsp" %>
-
+	<%@ include file="/WEB-INF/slideBar.jsp" %>
+	
 	<header class="relative center" id="hd">
 		<a href="${pageContext.request.contextPath}/" class="absolute logo"><img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo"></a>
 		<h2 class="mainTitle relative bold">"${requestScope.keyword}" 검색결과</h2>
@@ -13,7 +13,7 @@
 		</div>
 	</header>
 	
-	<div class="wrapper board">
+ 	<div class="wrapper board">
 		<form class="search flex">		
 			<select class="select2 none" name="searchType">
 				<option value="itemName" selected>제품명</option>

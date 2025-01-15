@@ -4,7 +4,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ include file="mainHeader.jsp" %>
-
 <script>
 function check() {
 	let fm = document.frm;

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.recomedi.myapp.persistance.ScrapMapper">
+	
+	<!-- 자바처럼 sql문과 java를 섞어서 사용할 수 없어서 include해서 사용한다 -->
+	<sql id="search">
+		<if test="searchType != null and searchType.equals('itemName')">
+			and itemName like concat('%',#{keyword},'%')
+		</if>
+		<if test="searchType != null and searchType.equals('efcyQesitm')">
+			and efcyQesitm like concat('%',#{keyword},'%')
+		</if>
+	</sql>
+	
+	<sql id="del">
+	    <if test='delyn != null and delyn.equals("N")'>
+	        AND delyn = 'N'
+	    </if>
+	</sql>	
+		
+	<select id="scrapSelectAll" parameterType="HashMap" resultType="sv">
+		SELECT * FROM SCRAP WHERE delyn = 'N' AND midx = #{midx} 
+		<include refid="search"/>
+		ORDER BY sidx DESC limit #{startPageNum}, #{perPageNum}
+	</select>
+		
+  	<select id="scrapTotalCount" parameterType="HashMap" resultType="int">
+		SELECT COUNT(*) AS cnt from SCRAP WHERE delyn = 'N' AND midx = #{midx} 
+		<include refid="search"/>
+	</select>
+	
+	<update id="scrapDelete" parameterType="int">
+		UPDATE SCRAP SET delyn = 'Y', modify = now() where sidx = #{sidx}
+	</update>
+	
+  	<select id="findSidx" parameterType="HashMap" resultType="Integer">
+		SELECT sidx from SCRAP WHERE midx = #{midx} AND itemSeq = #{itemSeq}
+		<include refid="del"/>
+	</select>
+		
+	<insert id="scrapInsert" parameterType="sv">
+  		INSERT INTO SCRAP(midx, efcyQesitm, itemName, itemSeq, ip) 
+		VALUES(#{midx}, #{efcyQesitm}, #{itemName}, #{itemSeq}, #{ip})
+		
+		<selectKey keyProperty="sidx" resultType="int" order="AFTER">
+			select max(sidx) as sidx from SCRAP
+	  	</selectKey>
+	</insert>
+		
+	<update id="scrapUpdate" parameterType="sv">
+		UPDATE SCRAP SET modify = now(), ip = #{ip}, delyn = 'N'  
+		WHERE sidx = #{sidx}
+	</update>
+	
+</mapper>

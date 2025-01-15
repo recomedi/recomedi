@@ -38,7 +38,7 @@ public class ApiUtil {
     		}
     		rd.close();
     		conn.disconnect();
-    		return response.toString(); // API 응답 반
+    		return response.toString(); // API ÀÀ´ä ¹Ý
     		
     	} catch(Exception e) {
     		e.printStackTrace();
