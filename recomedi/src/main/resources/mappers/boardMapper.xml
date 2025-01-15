@@ -27,10 +27,9 @@
 		view = view+1 where bidx=#{bidx}
 	</update>
 	<insert id="boardInsert" parameterType="bv">
-		INSERT INTO board (bidx, title, contents, date, modify, view, ip,
+		INSERT INTO board (bidx, title, contents, ip,
 		midx, boardcode)
-		VALUES (null, #{title}, #{contents},
-		CURRENT_TIMESTAMP, null, 0, #{ip},
+		VALUES (null, #{title}, #{contents}, #{ip},
 		#{midx}, #{boardcode})
 		<selectKey keyProperty="bidx" resultType="int" order="AFTER">
 			select
