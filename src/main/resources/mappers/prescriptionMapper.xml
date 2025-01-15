@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.recomedi.myapp.persistance.PrescriptionMapper">
+	<select id="selectPrescriptionsByMember" parameterType="int" resultType="com.recomedi.myapp.domain.PrescriptionVo">
+    SELECT 
+        p.pidx,
+        p.resMenufactureDate,
+        p.resPrescribeOrg,
+        p.commBrandName
+    FROM 
+        PRESCRIPTION p
+    WHERE 
+        p.midx = #{midx} AND p.delyn = 'N'
+</select>
+
+<select id="selectPrescriptionDetail" parameterType="int" resultMap="prescriptionDetailResultMap">
+    SELECT 
+        p.pidx,
+        p.resMenufactureDate,
+        p.resPrescribeOrg,
+        p.commBrandName,
+        d.resDrugName,
+        d.resPrescribeDrugEffect,
+        d.resIngredients
+    FROM 
+        PRESCRIPTION p
+    LEFT JOIN 
+        DRUG d ON p.pidx = d.pidx
+    WHERE 
+        p.pidx = #{pidx} AND p.delyn = 'N'
+</select>
+
+<!-- Result Map -->
+<resultMap id="prescriptionDetailResultMap" type="com.recomedi.myapp.domain.PrescriptionVo">
+    <id property="pidx" column="pidx"/>
+    <result property="resMenufactureDate" column="resMenufactureDate"/>
+    <result property="resPrescribeOrg" column="resPrescribeOrg"/>
+    <result property="commBrandName" column="commBrandName"/>
+    
+    <!-- 약물 리스트 -->
+    <collection property="drugs" ofType="com.recomedi.myapp.domain.DrugVo">
+        <result property="resDrugName" column="resDrugName"/>
+        <result property="resPrescribeDrugEffect" column="resPrescribeDrugEffect"/>
+        <result property="resIngredients" column="resIngredients"/>
+    </collection>
+</resultMap>
+	
+</mapper>
