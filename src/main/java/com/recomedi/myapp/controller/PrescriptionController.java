@@ -31,7 +31,7 @@ import com.recomedi.myapp.domain.PrescriptionVo;
 import com.recomedi.myapp.service.PrescriptionService;
 
 @Controller
-@RequestMapping(value = "/medicine/")
+@RequestMapping(value = "/Prescription/")
 public class PrescriptionController {
 	
 	
@@ -176,7 +176,7 @@ public class PrescriptionController {
 
 	@RequestMapping(value = "certification.do", method = RequestMethod.GET)
 	public String certification() {
-		return "WEB-INF/medicine/certification";
+		return "WEB-INF/Prescription/certification";
 	}
 	
 
@@ -576,10 +576,10 @@ public class PrescriptionController {
 	public String prescriptionList(HttpSession session, Model model) {
 	    List<PrescriptionVo> prescriptions = (List<PrescriptionVo>) session.getAttribute("finalResultData");
 	    if (prescriptions == null || prescriptions.isEmpty()) {
-	        return "redirect:/medicine/certification.do"; // 데이터가 없을 경우 인증 페이지로 리다이렉트
+	        return "redirect:/Prescription/certification.do"; // 데이터가 없을 경우 인증 페이지로 리다이렉트
 	    }
 	    model.addAttribute("prescriptions", prescriptions); // 데이터를 모델에 추가
-	    return "WEB-INF/medicine/prescriptionList";
+	    return "WEB-INF/Prescription/prescriptionList";
 	}
 
 
@@ -589,11 +589,11 @@ public class PrescriptionController {
 	public String prescriptionDetail(@RequestParam("id") int id, HttpSession session, Model model) {
 	    List<PrescriptionVo> prescriptions = (List<PrescriptionVo>) session.getAttribute("finalResultData");
 	    if (prescriptions == null || id >= prescriptions.size()) {
-	        return "redirect:/medicine/prescriptionList.do"; // 잘못된 ID일 경우 목록으로 리다이렉트
+	        return "redirect:/Prescription/prescriptionList.do"; // 잘못된 ID일 경우 목록으로 리다이렉트
 	    }
 	    PrescriptionVo selectedPrescription = prescriptions.get(id);
 	    model.addAttribute("prescription", selectedPrescription); // 선택된 처방 데이터를 모델에 추가
-	    return "WEB-INF/medicine/prescriptionDetail";
+	    return "WEB-INF/Prescription/prescriptionDetail";
 	}
 
 

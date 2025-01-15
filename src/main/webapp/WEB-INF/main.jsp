@@ -37,7 +37,7 @@
 		</form>
 	</div>
 	
-	<a href="${pageContext.request.contextPath}/medicine/certification.do" class="btn">본인인증페이지</a>
+	<a href="${pageContext.request.contextPath}/prescription/certification.do" class="btn">본인인증페이지</a>
 	<script>
 	// select
 	$(document).ready(function() {
